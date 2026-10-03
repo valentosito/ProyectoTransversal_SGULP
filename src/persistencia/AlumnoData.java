@@ -1,7 +1,7 @@
 
 package persistencia;
 
-import entidades.Alumno;
+import modelo.Alumno;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,9 +22,7 @@ public class AlumnoData {
         connection = Conexion.getInstancia().getConnection();
     }
     
-    
-    
-    
+         
     // MÉTODOS ABMC //   
         
     /*   

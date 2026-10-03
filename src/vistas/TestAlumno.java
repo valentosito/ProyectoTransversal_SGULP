@@ -1,7 +1,7 @@
 
 package vistas;
 
-import entidades.Alumno;
+import modelo.Alumno;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import persistencia.AlumnoData;

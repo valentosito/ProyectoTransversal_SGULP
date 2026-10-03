@@ -59,7 +59,7 @@ El repositorio incluye los siguientes archivos de documentación:
 
 ### Vistas
 
-- [x] `Principal`
+- [x] `VistaPrincipal`
 - [x] Menú principal
 - [ ] `VistaAlumnos`
 - [ ] `VistaMaterias`

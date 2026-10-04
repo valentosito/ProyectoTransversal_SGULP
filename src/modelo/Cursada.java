@@ -10,7 +10,6 @@ public class Cursada {
     private int anio;
     private int cuatrimestre;
     private String condicion; 
-    private double asistencia;
     private double notaFinal;
     private boolean recursante; 
     
@@ -31,7 +30,6 @@ public class Cursada {
         this.anio = anio;
         this.cuatrimestre = cuatrimestre;
         this.condicion = condicion;
-        this.asistencia = asistencia;
         this.notaFinal = notaFinal;
         this.recursante = recursante;
         this.alumno = alumno;
@@ -70,14 +68,6 @@ public class Cursada {
 
     public void setCondicion(String condicion) {
         this.condicion = condicion;
-    }
-
-    public double getAsistencia() {
-        return asistencia;
-    }
-
-    public void setAsistencia(double asistencia) {
-        this.asistencia = asistencia;
     }
 
     public double getNotaFinal() {
@@ -134,7 +124,6 @@ public class Cursada {
                 + ", anio=" + anio 
                 + ", cuatrimestre=" + cuatrimestre 
                 + ", condicion=" + condicion 
-                + ", asistencia=" + asistencia 
                 + ", notaFinal=" + notaFinal 
                 + ", recursante=" + recursante 
                 + ", alumno=" + alumno 

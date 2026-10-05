@@ -49,8 +49,8 @@ El repositorio incluye los siguientes archivos de documentación:
 
 - [x] Clase `Alumno`
 - [ ] Clase `Materia`
-- [ ] Clase `Cursada`
-- [ ] Clase `Asistencia`
+- [x] Clase `Cursada`
+- [x] Clase `Asistencia`
 - [x] Conexión JDBC
 - [x] `AlumnoData`
 - [ ] `MateriaData`

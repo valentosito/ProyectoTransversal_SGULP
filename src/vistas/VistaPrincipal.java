@@ -1,16 +1,13 @@
-
 package vistas;
 
 public class VistaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
 
-    
     public VistaPrincipal() {
         initComponents();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,28 +101,32 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mniMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniMateriasActionPerformed
-        
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        VistaMaterias vista = new VistaMaterias();
+        jDesktopPane1.add(vista);
+        vista.setVisible(true);
+        jDesktopPane1.moveToFront(vista);
     }//GEN-LAST:event_mniMateriasActionPerformed
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
-        
+
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
-       
+
     }//GEN-LAST:event_mniRegistrarCalificacionActionPerformed
 
     private void mniAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAlumnosActionPerformed
-       
+
         VistaAlumnos vista = new VistaAlumnos();
         jDesktopPane1.add(vista);
-        vista.setVisible(true);      
-        
+        vista.setVisible(true);
+
     }//GEN-LAST:event_mniAlumnosActionPerformed
 
-    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
     }
 

@@ -1,27 +1,23 @@
-
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 public class Cursada {
-    
+
     private int idCursada;
     private int anio;
     private int cuatrimestre;
-    private String condicion; 
+    private String condicion;
     private double notaFinal;
-    private boolean recursante; 
-    
-    
+    private boolean recursante;
+    private int porcAsistencia;
+    // Una cursada puede tener muchos registros de asistencia, uno por cada clase/día:
     // Referencias a objeto Alumno y Materia porque Cursada representa una inscripción concreta de un alumno a una materia: equivalen a las FK.
     // Cursada necesita saber de quién es y de qué materia es la inscripción.
     private Alumno alumno;
-    private Materia materia;  
-    
-    private int porcAsistencia;
-    
-    
+    private Materia materia;
+
     // Una cursada puede tener muchos registros de asistencia, uno por cada clase/día:
     private List<Asistencia> listaDeAsistencias;
 
@@ -35,7 +31,8 @@ public class Cursada {
         this.alumno = alumno;
         this.materia = materia;
         this.porcAsistencia = porcAsistencia;
-        this.listaDeAsistencias = listaDeAsistencias;
+
+        this.listaDeAsistencias = new ArrayList<>();
     }
 
     public int getIdCursada() {
@@ -114,24 +111,46 @@ public class Cursada {
         return listaDeAsistencias;
     }
 
-    public void setListaDeAsistencias(List<Asistencia> listaDeAsistencias) {
-        this.listaDeAsistencias = listaDeAsistencias;
+    // agregamos la asistencia a la lista
+    public void agregarAsistencia(Asistencia asistencia) {
+        listaDeAsistencias.add(asistencia);
+    }
+
+    // calculamos el porcentaje 
+    public int calcularPorcentajeAsistencia() {
+        if (listaDeAsistencias.isEmpty()) {
+            return 0;
+
+        }
+        int presentes = 0;
+
+        for (Asistencia asistencia : listaDeAsistencias) {
+            if (asistencia.isPresente()) {
+                presentes++;
+            }
+        }
+        return (presentes * 100) / listaDeAsistencias.size();
+
+    }
+    // actualizamos el porcentaje de asistencia 
+
+    public void actualizarPorcentajeDeAsistencia() {
+        this.porcAsistencia = calcularPorcentajeAsistencia();
     }
 
     @Override
     public String toString() {
-        return "Cursada{ " + "idCursada=" + idCursada 
-                + ", anio=" + anio 
-                + ", cuatrimestre=" + cuatrimestre 
-                + ", condicion=" + condicion 
-                + ", notaFinal=" + notaFinal 
-                + ", recursante=" + recursante 
-                + ", alumno=" + alumno 
-                + ", materia=" + materia 
-                + ", porcAsistencia=" + porcAsistencia 
-                + ", listaDeAsistencias=" + listaDeAsistencias 
+        return "Cursada{ " + "idCursada=" + idCursada
+                + ", anio=" + anio
+                + ", cuatrimestre=" + cuatrimestre
+                + ", condicion=" + condicion
+                + ", notaFinal=" + notaFinal
+                + ", recursante=" + recursante
+                + ", alumno=" + alumno
+                + ", materia=" + materia
+                + ", porcAsistencia=" + porcAsistencia
+                + ", listaDeAsistencias=" + listaDeAsistencias
                 + '}';
     }
-    
-    
+
 }

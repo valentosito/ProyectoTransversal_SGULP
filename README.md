@@ -48,12 +48,12 @@ El repositorio incluye los siguientes archivos de documentación:
 ### Modelo y persistencia
 
 - [x] Clase `Alumno`
-- [ ] Clase `Materia`
+- [x] Clase `Materia`
 - [x] Clase `Cursada`
 - [x] Clase `Asistencia`
 - [x] Conexión JDBC
 - [x] `AlumnoData`
-- [ ] `MateriaData`
+- [x] `MateriaData`
 - [ ] `CursadaData`
 - [ ] `AsistenciaData`
 

@@ -16,7 +16,7 @@ public class MateriaData {
         connection = Conexion.getInstancia().getConnection();
     }
 
-    public void guardarMateria(Materia m) {
+    public boolean guardarMateria(Materia m) {
         String sql = "INSERT INTO materia(nombre, estado) VALUES (?, ?)";
 
         try {
@@ -26,10 +26,10 @@ public class MateriaData {
             ps.setBoolean(2, m.isEstado());
             ps.executeUpdate();
             ps.close();
-
-            System.out.println("Materia guardada correctamente.");
+            return true;
         } catch (SQLException e) {
             System.out.println("Error al guardar la materia: " + e.getMessage());
+             return false;
         }
     }
 
@@ -86,7 +86,7 @@ public class MateriaData {
 
     }
 
-    public void borrarMateria(int id) {
+    public boolean borrarMateria(int id) {
         String sql = "DELETE FROM materia WHERE idMateria = ?";
 
         try {
@@ -96,12 +96,14 @@ public class MateriaData {
             ps.close();
 
             if (filas > 0) {
-                System.out.println("Materia borrada correctamente.");
+                return true;
             } else {
                 System.out.println("No se encontró una materia con id " + id);
+                return false;
             }
         } catch (SQLException e) {
             System.out.println("Error al borrar la materia: " + e.getMessage());
+            return false;
         }
     }
 
@@ -143,7 +145,7 @@ public class MateriaData {
         }
     }
 
-    public void actualizarMateria(Materia m) {
+    public boolean actualizarMateria(Materia m) {
         String sql = "UPDATE materia SET nombre=?, estado=? WHERE idMateria = ?";
 
         try {
@@ -155,12 +157,14 @@ public class MateriaData {
             ps.close();
 
             if (filas > 0) {
-                System.out.println("Materia actualizada correctamente.");
+                return true;
             } else {
                 System.out.println("No se encontró una materia con id " + m.getIdMateria());
+                return false;
             }
         } catch (SQLException e) {
             System.out.println("Error al actualizar la materia: " + e.getMessage());
+            return false;
         }
     }
 

@@ -8,7 +8,7 @@ public class Cursada {
     private int idCursada;
     private int anio;
     private int cuatrimestre;
-    private String condicion;
+    private int condicion;
     private double notaFinal;
     private boolean recursante;
     private int porcAsistencia;
@@ -21,16 +21,20 @@ public class Cursada {
     // Una cursada puede tener muchos registros de asistencia, uno por cada clase/día:
     private List<Asistencia> listaDeAsistencias;
 
-    public Cursada(int idCursada, int anio, int cuatrimestre, String condicion, double asistencia, double notaFinal, boolean recursante, Alumno alumno, Materia materia, int porcAsistencia, List<Asistencia> listaDeAsistencias) {
+    public Cursada(int idCursada, int anio, int cuatrimestre,
+            int condicion, double notaFinal,
+            boolean recursante, int porcAsistencia,
+            Alumno alumno, Materia materia) {
+
         this.idCursada = idCursada;
         this.anio = anio;
         this.cuatrimestre = cuatrimestre;
         this.condicion = condicion;
         this.notaFinal = notaFinal;
         this.recursante = recursante;
+        this.porcAsistencia = porcAsistencia;
         this.alumno = alumno;
         this.materia = materia;
-        this.porcAsistencia = porcAsistencia;
 
         this.listaDeAsistencias = new ArrayList<>();
     }
@@ -59,11 +63,11 @@ public class Cursada {
         this.cuatrimestre = cuatrimestre;
     }
 
-    public String getCondicion() {
+    public int getCondicion() {
         return condicion;
     }
 
-    public void setCondicion(String condicion) {
+    public void setCondicion(int condicion) {
         this.condicion = condicion;
     }
 
@@ -83,6 +87,14 @@ public class Cursada {
         this.recursante = recursante;
     }
 
+    public int getPorcAsistencia() {
+        return porcAsistencia;
+    }
+
+    public void setPorcAsistencia(int porcAsistencia) {
+        this.porcAsistencia = porcAsistencia;
+    }
+
     public Alumno getAlumno() {
         return alumno;
     }
@@ -99,14 +111,6 @@ public class Cursada {
         this.materia = materia;
     }
 
-    public int getPorcAsistencia() {
-        return porcAsistencia;
-    }
-
-    public void setPorcAsistencia(int porcAsistencia) {
-        this.porcAsistencia = porcAsistencia;
-    }
-
     public List<Asistencia> getListaDeAsistencias() {
         return listaDeAsistencias;
     }
@@ -116,14 +120,16 @@ public class Cursada {
         listaDeAsistencias.add(asistencia);
     }
 
-    // calculamos el porcentaje 
+    // calculamos el porcentaje de asistencia 
     public int calcularPorcentajeAsistencia() {
+
+        // si nohay asistencias retorna 0
         if (listaDeAsistencias.isEmpty()) {
             return 0;
 
         }
         int presentes = 0;
-
+// si tenemos asistencias, las recorremos y calculamos el porcentaje
         for (Asistencia asistencia : listaDeAsistencias) {
             if (asistencia.isPresente()) {
                 presentes++;
@@ -140,15 +146,16 @@ public class Cursada {
 
     @Override
     public String toString() {
-        return "Cursada{ " + "idCursada=" + idCursada
+        return "Cursada{ "
+                + "idCursada=" + idCursada
                 + ", anio=" + anio
                 + ", cuatrimestre=" + cuatrimestre
                 + ", condicion=" + condicion
                 + ", notaFinal=" + notaFinal
                 + ", recursante=" + recursante
+                + ", porcAsistencia=" + porcAsistencia
                 + ", alumno=" + alumno
                 + ", materia=" + materia
-                + ", porcAsistencia=" + porcAsistencia
                 + ", listaDeAsistencias=" + listaDeAsistencias
                 + '}';
     }

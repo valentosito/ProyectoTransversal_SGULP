@@ -14,14 +14,14 @@ public class CursadaData {
 
     private Connection connection;
 
-    // cateo de conection
+    // casteo de conection. Aca conectamos con MariaDB
     public CursadaData() {
         connection = (Connection) Conexion.getInstancia().getConnection();
     }
 
     // damos el alta a la cursada 
     // importo la clase cursada
-    public void guardarCursada(Cursada cursada) {
+    public void guardarCursada(Cursada cursada) {   //recibe un objeto cursada y lo transforma en un INSERT//
 
         String sql = "INSERT INTO cursada"
                 + "(idAlumno, idMateria, anio, cuatrimestre, condicion, "
@@ -53,7 +53,7 @@ public class CursadaData {
         }
     }
 
-    // dar de baja la cursada
+    // borrar la cursada ( recibe solo id q se genero antes y lo elimina a traves de delete)
     public void borrarCursada(int idCursada) {
 
         String sql = "DELETE FROM cursada WHERE idCursada = ?";
@@ -76,7 +76,7 @@ public class CursadaData {
         }
     }
 
-    // modificar la cursada 
+    // modificar la cursada la actualiza (recibe todos los datos y si hay cambios los actualiza)
     public void actualizarCursada(Cursada cursada) {
 
         String sql = "UPDATE cursada SET "
@@ -116,7 +116,7 @@ public class CursadaData {
         }
     }
 
-    // buscar la cursada po id 
+    // buscar la cursada por id. (aca el objeto llama al id ) 
     public Cursada buscarCursada(int idCursada) {
 
         String sql = "SELECT * FROM cursada WHERE idCursada = ?";
@@ -216,7 +216,7 @@ public class CursadaData {
             System.out.println("Error al listar cursadas: " + e.getMessage());
         }
 
-        return lista;
+        return lista;     // se puede cargar en una tabla
     }
 
     // listado de los cursos del alumno 

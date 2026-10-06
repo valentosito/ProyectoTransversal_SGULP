@@ -54,7 +54,7 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] Conexión JDBC
 - [x] `AlumnoData`
 - [x] `MateriaData`
-- [ ] `CursadaData`
+- [x] `CursadaData`
 - [ ] `AsistenciaData`
 
 ### Vistas

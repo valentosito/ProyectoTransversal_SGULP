@@ -4,6 +4,7 @@ import modelo.Alumno;
 import modelo.Cursada;
 import modelo.Materia;
 import org.mariadb.jdbc.Connection;
+import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,16 @@ public class CursadaData {
             ps.setInt(4, cursada.getCuatrimestre());
             ps.setInt(5, cursada.getCondicion());
             ps.setBoolean(6, cursada.isRecursante());
-            ps.setDouble(7, cursada.getNotaFinal());
+            
+            //ps.setDouble(7, cursada.getNotaFinal()); reemplazo
+            
+            // Una cursada nueva todavía puede no tener nota:
+            if (cursada.getNotaFinal() != null) {
+                ps.setDouble(7, cursada.getNotaFinal());
+            } else {
+                ps.setNull(7, java.sql.Types.DECIMAL);
+            }
+            
             ps.setInt(8, cursada.getPorcAsistencia());
 
             ps.executeUpdate();
@@ -100,7 +110,14 @@ public class CursadaData {
             ps.setInt(4, cursada.getCuatrimestre());
             ps.setInt(5, cursada.getCondicion());
             ps.setBoolean(6, cursada.isRecursante());
-            ps.setDouble(7, cursada.getNotaFinal());
+            //ps.setDouble(7, cursada.getNotaFinal());
+            
+            if (cursada.getNotaFinal() != null) {
+                ps.setDouble(7, cursada.getNotaFinal());
+            } else {
+                ps.setNull(7, java.sql.Types.DECIMAL);
+            }
+            
             ps.setInt(8, cursada.getPorcAsistencia());
             ps.setInt(9, cursada.getIdCursada());
 
@@ -140,13 +157,18 @@ public class CursadaData {
 
                 Alumno alumno = alumnoData.buscarAlumno(idAlumno);
                 Materia materia = materiaData.buscarMateria(idMateria);
-
+          
+                // Agrego:
+                Double notaFinal = rs.getObject("notaFinal", Double.class);
+                
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),
                         rs.getInt("cuatrimestre"),
                         rs.getInt("condicion"),
-                        rs.getDouble("notaFinal"),
+                        
+                        //rs.getDouble("notaFinal"),
+                        notaFinal,
                         rs.getBoolean("recursante"),
                         rs.getInt("asistencia"),
                         alumno,
@@ -194,12 +216,14 @@ public class CursadaData {
                 Alumno alumno = alumnoData.buscarAlumno(idAlumno);
                 Materia materia = materiaData.buscarMateria(idMateria);
 
+                Double notaFinal = rs.getObject("notaFinal", Double.class);
+                
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),
                         rs.getInt("cuatrimestre"),
                         rs.getInt("condicion"),
-                        rs.getDouble("notaFinal"),
+                        notaFinal,
                         rs.getBoolean("recursante"),
                         rs.getInt("asistencia"),
                         alumno,
@@ -244,12 +268,15 @@ public class CursadaData {
                 int idMateria = rs.getInt("idMateria");
 
                 Materia materia = materiaData.buscarMateria(idMateria);
+                
+                Double notaFinal = rs.getObject("notaFinal", Double.class);
+                
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),
                         rs.getInt("cuatrimestre"),
                         rs.getInt("condicion"),
-                        rs.getDouble("notaFinal"),
+                        notaFinal,
                         rs.getBoolean("recursante"),
                         rs.getInt("asistencia"),
                         alumno,

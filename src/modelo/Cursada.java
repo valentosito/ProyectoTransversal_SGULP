@@ -9,7 +9,8 @@ public class Cursada {
     private int anio;
     private int cuatrimestre;
     private int condicion;
-    private double notaFinal;
+    //private double notaFinal;
+    private Double notaFinal;
     private boolean recursante;
     private int porcAsistencia;
     // Una cursada puede tener muchos registros de asistencia, uno por cada clase/día:
@@ -22,7 +23,7 @@ public class Cursada {
     private List<Asistencia> listaDeAsistencias;
 
     public Cursada(int idCursada, int anio, int cuatrimestre,
-            int condicion, double notaFinal,
+            int condicion, Double notaFinal,
             boolean recursante, int porcAsistencia,
             Alumno alumno, Materia materia) {
 
@@ -71,11 +72,11 @@ public class Cursada {
         this.condicion = condicion;
     }
 
-    public double getNotaFinal() {
+    public Double getNotaFinal() {
         return notaFinal;
     }
 
-    public void setNotaFinal(double notaFinal) {
+    public void setNotaFinal(Double notaFinal) {
         this.notaFinal = notaFinal;
     }
 

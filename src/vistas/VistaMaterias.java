@@ -1,6 +1,7 @@
 package vistas;
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -10,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Materia;
 import persistencia.MateriaData;
+import java.sql.SQLException;
 
 public class VistaMaterias extends javax.swing.JInternalFrame {
 
@@ -77,6 +79,9 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
         jbActualizar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
         jbNuevo = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jtBuscarPorId = new javax.swing.JTextField();
+        jBtnBuscar = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -172,45 +177,70 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
         jbNuevo.setText("Nuevo");
         jbNuevo.addActionListener(this::jbNuevoActionPerformed);
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jLabel6.setText("Buscar por ID:");
+
+        jtBuscarPorId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtBuscarPorIdKeyPressed(evt);
+            }
+        });
+
+        jBtnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
+        jBtnBuscar.setText("Buscar");
+        jBtnBuscar.addActionListener(this::jBtnBuscarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtBuscarPorId, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnBuscar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanelMateria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanelMateria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jtBuscarPorId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,7 +251,7 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -258,21 +288,17 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
 
     //SELECCIÓN DE PRODUCTO EN TABLA + AUTO-COMPLETE DE FORMULARIO
     private void jTablaMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaMateriasMouseClicked
-        int filaSeleccionada = jTablaMaterias.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            int idMateria = (int) jTablaMaterias.getValueAt(filaSeleccionada, 0);
-            Materia mat = materiaData.buscarMateria(idMateria);
+        int fila = jTablaMaterias.getSelectedRow();
+        if (fila != -1) {
+            jTextFieldID.setText(jTablaMaterias.getValueAt(fila, 0).toString());
+            jTextFieldNombre.setText(jTablaMaterias.getValueAt(fila, 1).toString());
+            boolean activa = (boolean) jTablaMaterias.getValueAt(fila, 2);
+            jrActiva.setSelected(activa);
+            jrInactiva.setSelected(!activa);
 
-            if (mat != null) {
-                jTextFieldID.setText(String.valueOf(mat.getIdMateria()));
-                jTextFieldNombre.setText(mat.getNombre());
-                jrActiva.setSelected(mat.isEstado());
-                jrInactiva.setSelected(!mat.isEstado());
-
-                jbGuardar.setEnabled(false);
-                jbActualizar.setEnabled(true);
-                jbEliminar.setEnabled(true);
-            }
+            jbGuardar.setEnabled(false);
+            jbActualizar.setEnabled(true);
+            jbEliminar.setEnabled(true);
         }
     }//GEN-LAST:event_jTablaMateriasMouseClicked
 
@@ -328,13 +354,53 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jbActualizarActionPerformed
 
+    private void jBtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBuscarActionPerformed
+
+        try {
+            String idIngresado = jtBuscarPorId.getText().trim();
+
+            if (idIngresado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe completar el campo ID.");
+            } else {
+
+                int idMateria = Integer.parseInt(idIngresado);
+                Materia m = materiaData.buscarMateria((idMateria));
+                if (m == null) {
+                    JOptionPane.showMessageDialog(this, "Materia no encontrada");
+                } else {
+                    int id = m.getIdMateria();
+                    String nombre = m.getNombre();
+                    boolean estado = m.isEstado();
+
+                    jTextFieldID.setText(String.valueOf(id));
+                    jTextFieldNombre.setText(nombre);
+                    jrActiva.setSelected(estado);
+                    jrInactiva.setSelected(!estado);
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
+        }
+
+
+    }//GEN-LAST:event_jBtnBuscarActionPerformed
+
+    private void jtBuscarPorIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtBuscarPorIdKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jBtnBuscarActionPerformed(null);
+        }
+    }//GEN-LAST:event_jtBuscarPorIdKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanelMateria;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -348,6 +414,7 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup jbgEstado;
     private javax.swing.JRadioButton jrActiva;
     private javax.swing.JRadioButton jrInactiva;
+    private javax.swing.JTextField jtBuscarPorId;
     // End of variables declaration//GEN-END:variables
 
     public boolean validarCamposVacios(JPanel jPanel) {

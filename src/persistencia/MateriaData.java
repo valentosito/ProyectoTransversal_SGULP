@@ -107,7 +107,7 @@ public class MateriaData {
         }
     }
 
-    public void bajaEstado(int id) {
+    public boolean bajaEstado(int id) {
         String sql = "UPDATE materia SET estado = false WHERE idMateria = ?";
 
         try {
@@ -117,16 +117,17 @@ public class MateriaData {
             ps.close();
 
             if (filas > 0) {
-                System.out.println("Materia dada de baja correctamente.");
+                return true;
             } else {
-                System.out.println("No se encontró una materia con id " + id);
+                return false;
             }
         } catch (SQLException e) {
             System.out.println("Error al dar de baja a la materia: " + e.getMessage());
+            return false;
         }
     }
 
-    public void altaEstado(int id) {
+    public boolean altaEstado(int id) {
         String sql = "UPDATE materia SET estado = true WHERE idMateria = ?";
 
         try {
@@ -136,12 +137,13 @@ public class MateriaData {
             ps.close();
 
             if (filas > 0) {
-                System.out.println("Materia dada de alta correctamente.");
+                return true;
             } else {
-                System.out.println("No se encontró una materia con id " + id);
+                return false;
             }
         } catch (SQLException e) {
             System.out.println("Error al dar de alta a la materia: " + e.getMessage());
+            return false;
         }
     }
 

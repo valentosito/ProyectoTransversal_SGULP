@@ -67,6 +67,9 @@ public class Materia {
         return "Materia{" + "idMateria=" + idMateria + ", nombre=" + nombre + '}';
     }
     
+        public void agregarCursada(Cursada cursada) {
+        listaDeCursadas.add(cursada);
+    }
     
 
 }

@@ -62,7 +62,7 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] `VistaPrincipal`
 - [x] Menú principal
 - [ ] `VistaAlumnos`
-- [ ] `VistaMaterias`
+- [x] `VistaMaterias`
 - [ ] `VistaInscripcion`
 - [ ] `VistaAsistencia`
 - [ ] `VistaConsultas`
@@ -71,7 +71,7 @@ El repositorio incluye los siguientes archivos de documentación:
 ### Funcionalidades
 
 - [x] ABMC de alumnos
-- [ ] ABMC de materias
+- [x] ABMC de materias
 - [ ] Consulta de materias de un alumno
 - [ ] Consulta de alumnos de una materia
 - [ ] Inscripción a materias

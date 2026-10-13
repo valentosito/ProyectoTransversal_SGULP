@@ -73,6 +73,51 @@ public class AsistenciaData {
         
         }
     
+    
+    public void actualizarAsistencia ( Asistencia asistencia) {
+        String sql = "UPDATE asistencia" + "SET fecha = ?, presente= ? "   // con update modificamos un registro, el set establece los nuevos valores y el quere decide que modifica
+                + "WHERE idAsistencia = ?";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setDate(1, new java.sql.Date (asistencia.getFecha().getTime()));
+            ps.setBoolean(2, asistencia.isPresente());
+            ps.setInt(3, asistencia.getIdAsistencia());
+            ps.executeUpdate();  // ejecuta la modificacion en la base de datos
+            ps.close();
+            
+            
+        } catch (SQLException e) {
+            System.out.println(" No se pudo actualizar la asistencia: " + e.getMessage());
+        }
+    }
+    
+    public void eliminarAsistencia (int idAsistencia ) {
+        
+        String sql = "DELETE FROM asistencia WHERE  idAsistencia = ? "; 
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            
+            ps.setInt(1, idAsistencia);
+            ps.executeUpdate(); 
+            ps.close();
+            
+        } catch (SQLException e) {
+            System.out.println(" No se pudieron hacer cambios en Asistencia; " 
+                    + e.getMessage() );
+            
+        }
+        
+        
+        
+    
+    }
+    
+    
+    
+   
+    
         
         
     }

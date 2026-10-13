@@ -55,7 +55,7 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] `AlumnoData`
 - [x] `MateriaData`
 - [x] `CursadaData`
-- [ ] `AsistenciaData`
+- [x] `AsistenciaData`
 
 ### Vistas
 

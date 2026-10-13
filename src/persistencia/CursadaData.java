@@ -4,7 +4,7 @@ import modelo.Alumno;
 import modelo.Cursada;
 import modelo.Materia;
 import org.mariadb.jdbc.Connection;
-import java.sql.Connection;
+/*import java.sql.Connection;*/
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

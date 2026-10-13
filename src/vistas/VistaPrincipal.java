@@ -76,6 +76,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         mnuAlumnos.setText("ALUMNOS");
 
         mniInscripcion.setText("Inscripción");
+        mniInscripcion.addActionListener(this::mniInscripcionActionPerformed);
         mnuAlumnos.add(mniInscripcion);
 
         mniAsistencia.setText("Asistencia");
@@ -124,6 +125,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
         vista.setVisible(true);
 
     }//GEN-LAST:event_mniAlumnosActionPerformed
+
+    private void mniInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniInscripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniInscripcionActionPerformed
 
     public static void main(String args[]) {
 

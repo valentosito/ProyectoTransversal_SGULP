@@ -1,14 +1,16 @@
 package vistas;
 
-public class VistaPrincipal extends javax.swing.JFrame {
+  
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
+    public class VistaPrincipal extends javax.swing.JFrame {
 
-    public VistaPrincipal() {
-        initComponents();
-    }
+        private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
 
-    @SuppressWarnings("unchecked")
+        public VistaPrincipal() {
+            initComponents();
+        }
+
+        @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -112,6 +114,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
 
+        VistaAsistencia vista = new VistaAsistencia();
+
+        jDesktopPane1.add(vista);
+        vista.setVisible(true);
+    
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed

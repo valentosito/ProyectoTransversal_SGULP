@@ -1,6 +1,6 @@
 package vistas;
 
-  
+import vistas.VistaAsistencia;
 
     public class VistaPrincipal extends javax.swing.JFrame {
 
@@ -114,11 +114,6 @@ package vistas;
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
 
-        VistaAsistencia vista = new VistaAsistencia();
-
-        jDesktopPane1.add(vista);
-        vista.setVisible(true);
-    
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
@@ -159,3 +154,5 @@ package vistas;
     private javax.swing.JMenu mnuDocentes;
     // End of variables declaration//GEN-END:variables
 }
+
+

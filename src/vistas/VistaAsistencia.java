@@ -1,42 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package vistas;
 
+import modelo.Asistencia;
 import modelo.Cursada;
+import persistencia.AsistenciaData;
 import persistencia.CursadaData;
+
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-public class VistaAsistencia extends javax.swing.JInternalFrame {
+
+  
+
+    public class VistaAsistencia extends javax.swing.JInternalFrame {
+
+        private final CursadaData cursadaData = new CursadaData();  // atributo de acceso a los datos
+        private final AsistenciaData asistenciaData = new AsistenciaData();
+        private List<Cursada> listaCursadas = new ArrayList<>();
+
+        public VistaAsistencia() {
+            initComponents();
+            configurarTabla();
+            cargarCursadas();
+        }
     
-private CursadaData cursadaData = new CursadaData();  // atributo de acceso a los datos
 
-private void cargarCursadas() {
-    // consultamos todas las cursadas, recorremos la lista y carga el combo con los datos
+        private void cargarCursadas() {
+            // consultamos todas las cursadas, recorremos la lista y carga el combo con los datos
 
-    ArrayList<Cursada> cursadas = cursadaData.listarCursadas();
+            listaCursadas = cursadaData.listarCursadas();
+            cbCursada.removeAllItems();
 
-    DefaultComboBoxModel<String> modeloCombo =
-            new DefaultComboBoxModel<>();
+            for (Cursada cursada : listaCursadas) {
 
-    for (Cursada cursada : cursadas) {
+                String texto = "ID: " + cursada.getIdCursada()
+                        + " - " + cursada.getMateria().getNombre()
+                        + " - " + cursada.getAlumno().getApellido();
 
-        String texto = "ID: " + cursada.getIdCursada()
-                + " - " + cursada.getMateria().getNombre()
-                + " - " + cursada.getAlumno().getApellido();
+             cbCursada.addItem(texto);
+            }
+        }
 
-        modeloCombo.addElement(texto);
-    }
+        private void configurarTabla() {   // configuramos la tabla 
 
-    cbCursada.setModel(modeloCombo);
-}
+            DefaultTableModel modeloTabla = new DefaultTableModel(
+                    new Object[]{"Fecha", "Alumno", "Materia", "Asistencia"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int fila, int columna) {
+                    return false;
+                }
+            };
+            tblAsistencias.setModel(modeloTabla);
 
-    public VistaAsistencia() {
-        initComponents();
-        cargarCursadas();
-    }
+        }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -66,9 +86,11 @@ private void cargarCursadas() {
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/escoba.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         tblAsistencias.setBackground(new java.awt.Color(153, 153, 255));
         tblAsistencias.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
@@ -138,6 +160,83 @@ private void cargarCursadas() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        int indice = cbCursada.getSelectedIndex();
+
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(
+                    this, "Seleccioná una cursada."
+            );
+            return;
+        }
+
+        if (dcFecha.getDate() == null) {
+            JOptionPane.showMessageDialog(
+                    this, "Seleccioná la fecha de asistencia."
+            );
+            return;
+        }
+
+        Cursada cursada = listaCursadas.get(indice);
+
+        Asistencia asistencia = new Asistencia(
+                0,
+                dcFecha.getDate(),
+                chkPresente.isSelected(),
+                cursada
+        );
+
+        asistenciaData.guardarAsistencia(asistencia);
+
+        cargarAsistencias();
+        JOptionPane.showMessageDialog(
+                this, "Se ejecutó el registro de asistencia."
+        );
+    }
+
+    private void cargarAsistencias() {
+
+        int indice = cbCursada.getSelectedIndex();
+
+        if (indice == -1) {
+            return;
+        }
+
+        Cursada cursada = listaCursadas.get(indice);
+
+        List<Asistencia> asistencias
+                = asistenciaData.listarPorCursada(cursada);
+
+        DefaultTableModel modelo
+                = (DefaultTableModel) tblAsistencias.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Asistencia asistencia : asistencias) {
+
+            modelo.addRow(new Object[]{
+                asistencia.getFecha(),
+                "Alumno " + cursada.getAlumno().getIdAlumno(),
+                "Materia " + cursada.getMateria().getIdMateria(),
+                asistencia.isPresente() ? "Presente" : "Ausente"
+            });
+        }
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+        dcFecha.setDate(null);
+        chkPresente.setSelected(false);
+        cbCursada.setSelectedIndex(-1);
+
+        DefaultTableModel modelo
+                = (DefaultTableModel) tblAsistencias.getModel();
+
+        modelo.setRowCount(0);
+
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
@@ -153,4 +252,4 @@ private void cargarCursadas() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAsistencias;
     // End of variables declaration//GEN-END:variables
-}
+    }

@@ -26,21 +26,161 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jlTitulo = new javax.swing.JLabel();
+        lblAlumno = new javax.swing.JLabel();
+        cbAlumno = new javax.swing.JComboBox<>();
+        jlMateria = new javax.swing.JLabel();
+        cbMateria = new javax.swing.JComboBox<>();
+        jlAnio = new javax.swing.JLabel();
+        spAnio = new javax.swing.JSpinner();
+        jblCustrimestre = new javax.swing.JLabel();
+        cbCuatrimestre = new javax.swing.JComboBox<>();
+        chkRecursante = new javax.swing.JCheckBox();
+        btnInscribir = new javax.swing.JButton();
+        jbLimpiar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInscripciones = new javax.swing.JTable();
+
+        jlTitulo.setFont(new java.awt.Font("Corbel", 0, 21)); // NOI18N
+        jlTitulo.setText("Inscripción");
+
+        lblAlumno.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblAlumno.setText("Alumno ");
+
+        cbAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jlMateria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jlMateria.setText("Materia: ");
+
+        cbMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jlAnio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jlAnio.setText("Año ");
+
+        jblCustrimestre.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jblCustrimestre.setText("Cuatrimestre");
+
+        cbCuatrimestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        chkRecursante.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        chkRecursante.setText("Recursante ");
+        chkRecursante.addActionListener(this::chkRecursanteActionPerformed);
+
+        btnInscribir.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnInscribir.setText("Inscribir");
+
+        jbLimpiar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jbLimpiar.setText("Limpiar");
+
+        tblInscripciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblInscripciones);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbCuatrimestre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlMateria)
+                                    .addComponent(jblCustrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chkRecursante, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblAlumno))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jlAnio)
+                                .addGap(18, 18, 18)
+                                .addComponent(spAnio))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(116, 116, 116)
+                        .addComponent(jbLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlTitulo)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAlumno)
+                        .addGap(35, 35, 35)
+                        .addComponent(cbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jlMateria)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlAnio))
+                        .addGap(27, 27, 27)
+                        .addComponent(jblCustrimestre))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(chkRecursante)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInscribir)
+                    .addComponent(jbLimpiar))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkRecursanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRecursanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkRecursanteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInscribir;
+    private javax.swing.JComboBox<String> cbAlumno;
+    private javax.swing.JComboBox<String> cbCuatrimestre;
+    private javax.swing.JComboBox<String> cbMateria;
+    private javax.swing.JCheckBox chkRecursante;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbLimpiar;
+    private javax.swing.JLabel jblCustrimestre;
+    private javax.swing.JLabel jlAnio;
+    private javax.swing.JLabel jlMateria;
+    private javax.swing.JLabel jlTitulo;
+    private javax.swing.JLabel lblAlumno;
+    private javax.swing.JSpinner spAnio;
+    private javax.swing.JTable tblInscripciones;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,13 +1,12 @@
 package vistas;
 
-
 public class VistaPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
 
     public VistaPrincipal() {
         initComponents();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -113,7 +112,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniMateriasActionPerformed
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
-         // Creamos la ventana interna
+        // Creamos la ventana interna
         VistaAsistencia vista = new VistaAsistencia();
 
         // La agregamos al escritorio principal
@@ -139,13 +138,21 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniAlumnosActionPerformed
 
     private void mniInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniInscripcionActionPerformed
-        // TODO add your handling code here:
+        
+        // creamos la ventana interna 
+        VistaInscripcion vista = new VistaInscripcion();
+        //  la agregamos al escritorio principal
+        jDesktopPane1.add(vista);
+        // // la mostramos 
+        vista.setVisible(true);
+        // la ponemos al frente
+        jDesktopPane1.moveToFront(vista);
     }//GEN-LAST:event_mniInscripcionActionPerformed
 
-        public static void main(String args[]) {
+    public static void main(String args[]) {
 
-            java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
-        }
+        java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

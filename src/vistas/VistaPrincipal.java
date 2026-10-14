@@ -1,16 +1,16 @@
 package vistas;
 
-import vistas.VistaAsistencia;
 
-    public class VistaPrincipal extends javax.swing.JFrame {
+public class VistaPrincipal extends javax.swing.JFrame {
 
-        private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
 
-        public VistaPrincipal() {
-            initComponents();
-        }
+    public VistaPrincipal() {
+        initComponents();
+        
+    }
 
-        @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -113,7 +113,17 @@ import vistas.VistaAsistencia;
     }//GEN-LAST:event_mniMateriasActionPerformed
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
+         // Creamos la ventana interna
+        VistaAsistencia vista = new VistaAsistencia();
 
+        // La agregamos al escritorio principal
+        jDesktopPane1.add(vista);
+
+        // Mostramos la ventana
+        vista.setVisible(true);
+
+        // La llevamos al frente
+        jDesktopPane1.moveToFront(vista);
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
@@ -132,10 +142,10 @@ import vistas.VistaAsistencia;
         // TODO add your handling code here:
     }//GEN-LAST:event_mniInscripcionActionPerformed
 
-    public static void main(String args[]) {
+        public static void main(String args[]) {
 
-        java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
-    }
+            java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -154,5 +164,3 @@ import vistas.VistaAsistencia;
     private javax.swing.JMenu mnuDocentes;
     // End of variables declaration//GEN-END:variables
 }
-
-

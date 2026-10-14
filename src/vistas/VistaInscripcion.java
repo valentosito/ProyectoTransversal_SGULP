@@ -4,18 +4,146 @@
  */
 package vistas;
 
-/**
- *
- * @author usuario
- */
+import modelo.Alumno;
+import persistencia.AlumnoData;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import modelo.Materia;
+import persistencia.CursadaData;
+import persistencia.MateriaData;
+
 public class VistaInscripcion extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form VistaInscripcion
-     */
+    private final AlumnoData alumnoData = new AlumnoData();
+    private final MateriaData materiaData = new MateriaData();
+    private final CursadaData cursadaData = new CursadaData();
+
+    private ArrayList<Alumno> listaAlumnos;
+    private ArrayList<Materia> listaMaterias;
+
     public VistaInscripcion() {
+        
         initComponents();
+        configurarFormulario();
+        cargarAlumnos();
+        cargarMaterias();
+        cargarInscripciones();
+
     }
+    private void configurarFormulario() {
+
+    setTitle("Inscripción");
+    setClosable(true);
+    setIconifiable(true);
+    setMaximizable(true);
+    setResizable(true);
+
+    cbCuatrimestre.removeAllItems();
+    cbCuatrimestre.addItem("1");
+    cbCuatrimestre.addItem("2");
+
+    DefaultTableModel modelo = new DefaultTableModel(
+        new Object[][] {},
+        new String[] {
+            "ID", "Alumno", "Materia",
+            "Año", "Cuatrimestre", "Recursante"
+        }
+    ) {
+        @Override
+        public boolean isCellEditable(int fila, int columna) {
+            return false;
+        }
+    };
+
+    tblInscripciones.setModel(modelo);
+}
+
+    private void cargarAlumnos() {
+
+    listaAlumnos = alumnoData.listarAlumnos();
+
+    DefaultComboBoxModel<Alumno> modelo =
+            new DefaultComboBoxModel<>();
+
+    for (Alumno alumno : listaAlumnos) {
+        if (alumno.isEstado()) {
+            modelo.addElement(alumno);
+        }
+    }
+
+    cbAlumno.setModel(modelo);
+}
+    private void cargarMaterias() {
+
+    listaMaterias = materiaData.listarMaterias();
+
+    DefaultComboBoxModel<String> modelo =
+            new DefaultComboBoxModel<>();
+
+    for (Materia materia : listaMaterias) {
+
+        if (materia.isEstado()) {
+            modelo.addElement(
+                    materia.getIdMateria() + " - "
+                    + materia.getNombre()
+            );
+        }
+    }
+    
+
+    cbMateria.setModel(modelo);
+}
+    private void configurarCuatrimestres() {
+
+    cbCuatrimestre.removeAllItems();
+
+    cbCuatrimestre.addItem("Primer cuatrimestre");
+    cbCuatrimestre.addItem("Segundo cuatrimestre");
+}
+    private void configurarTabla() {
+
+    DefaultTableModel modelo = new DefaultTableModel(
+        new Object[][] {},
+        new String[] {
+            "ID", "Alumno", "Materia",
+            "Año", "Cuatrimestre", "Recursante"
+        }
+    ) {
+        @Override
+        public boolean isCellEditable(int fila, int columna) {
+            return false;
+        }
+    };
+
+    tblInscripciones.setModel(modelo);
+}
+    private void cargarInscripciones() {
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblInscripciones.getModel();
+
+    modelo.setRowCount(0);
+
+    ArrayList<Cursada> cursadas = cursadaData.listarCursadas();
+
+    for (Cursada cursada : cursadas) {
+
+        String nombreAlumno = cursada.getAlumno().getApellido()
+                + ", " + cursada.getAlumno().getNombre();
+
+        String nombreMateria = cursada.getMateria().getNombre();
+
+        modelo.addRow(new Object[] {
+            cursada.getIdCursada(),
+            nombreAlumno,
+            nombreMateria,
+            cursada.getAnio(),
+            cursada.getCuatrimestre(),
+            cursada.isRecursante() ? "Sí" : "No"
+        });
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,7 +290,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void chkRecursanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRecursanteActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_chkRecursanteActionPerformed
 
 

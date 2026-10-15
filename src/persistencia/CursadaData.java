@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class CursadaData {
 
     private Connection connection;
+    private int ultimoError;
 
     // casteo de conection. Aca conectamos con MariaDB
     public CursadaData() {
@@ -22,12 +23,14 @@ public class CursadaData {
 
     // damos el alta a la cursada 
     // importo la clase cursada
-    public void guardarCursada(Cursada cursada) {   //recibe un objeto cursada y lo transforma en un INSERT//
+    public boolean guardarCursada(Cursada cursada) {   //recibe un objeto cursada y lo transforma en un INSERT//
 
         String sql = "INSERT INTO cursada"
                 + "(idAlumno, idMateria, anio, cuatrimestre, condicion, "
                 + "recursante, notaFinal, asistencia) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        ultimoError = 0;
 
         try {
 
@@ -39,28 +42,36 @@ public class CursadaData {
             ps.setInt(4, cursada.getCuatrimestre());
             ps.setInt(5, cursada.getCondicion());
             ps.setBoolean(6, cursada.isRecursante());
-            
+
             //ps.setDouble(7, cursada.getNotaFinal()); reemplazo
-            
             // Una cursada nueva todavía puede no tener nota:
             if (cursada.getNotaFinal() != null) {
                 ps.setDouble(7, cursada.getNotaFinal());
             } else {
                 ps.setNull(7, java.sql.Types.DECIMAL);
             }
-            
+
             ps.setInt(8, cursada.getPorcAsistencia());
 
-            ps.executeUpdate();
+            int filas = ps.executeUpdate();
 
-            ps.close();
-
-            System.out.println("Cursada guardada correctamente.");
+            return filas > 0;
 
         } catch (SQLException e) {
 
-            System.out.println("Error al guardar cursada: " + e.getMessage());
+            ultimoError = e.getErrorCode();
+
+            System.out.println(
+                    "Error al guardar cursada: " + e.getMessage()
+            );
+
+            return false;
         }
+
+    }
+
+    public int getUltimoError() {
+        return ultimoError;
     }
 
     // borrar la cursada ( recibe solo id q se genero antes y lo elimina a traves de delete)
@@ -111,13 +122,13 @@ public class CursadaData {
             ps.setInt(5, cursada.getCondicion());
             ps.setBoolean(6, cursada.isRecursante());
             //ps.setDouble(7, cursada.getNotaFinal());
-            
+
             if (cursada.getNotaFinal() != null) {
                 ps.setDouble(7, cursada.getNotaFinal());
             } else {
                 ps.setNull(7, java.sql.Types.DECIMAL);
             }
-            
+
             ps.setInt(8, cursada.getPorcAsistencia());
             ps.setInt(9, cursada.getIdCursada());
 
@@ -157,16 +168,15 @@ public class CursadaData {
 
                 Alumno alumno = alumnoData.buscarAlumno(idAlumno);
                 Materia materia = materiaData.buscarMateria(idMateria);
-          
+
                 // Agrego:
                 Double notaFinal = rs.getObject("notaFinal", Double.class);
-                
+
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),
                         rs.getInt("cuatrimestre"),
                         rs.getInt("condicion"),
-                        
                         //rs.getDouble("notaFinal"),
                         notaFinal,
                         rs.getBoolean("recursante"),
@@ -217,7 +227,7 @@ public class CursadaData {
                 Materia materia = materiaData.buscarMateria(idMateria);
 
                 Double notaFinal = rs.getObject("notaFinal", Double.class);
-                
+
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),
@@ -268,9 +278,9 @@ public class CursadaData {
                 int idMateria = rs.getInt("idMateria");
 
                 Materia materia = materiaData.buscarMateria(idMateria);
-                
+
                 Double notaFinal = rs.getObject("notaFinal", Double.class);
-                
+
                 Cursada cursada = new Cursada(
                         rs.getInt("idCursada"),
                         rs.getInt("anio"),

@@ -28,21 +28,21 @@
                           <Component id="cbMateria" alignment="0" max="32767" attributes="0"/>
                           <Component id="cbAlumno" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jlMateria" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jblCustrimestre" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
-                                  <Component id="chkRecursante" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
-                                  <Component id="lblAlumno" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Component id="jlAnio" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="spAnio" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jlTitulo" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jlMateria" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jblCustrimestre" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
+                                  <Component id="chkRecursante" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
+                                  <Component id="lblAlumno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jlTitulo" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="496" max="-2" attributes="0"/>
@@ -204,6 +204,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Inscribir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInscribirActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbLimpiar">
       <Properties>
@@ -212,6 +215,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Limpiar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbLimpiarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
 

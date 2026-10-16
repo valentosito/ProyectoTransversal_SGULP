@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package vistas;
 
 import modelo.Alumno;
@@ -32,21 +28,25 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         cargarMaterias();
         cargarInscripciones();
 
+        cbAlumno.setSelectedIndex(-1);
+        cbMateria.setSelectedIndex(-1);
+        cbCuatrimestre.setSelectedIndex(-1);
+
     }
 
     private void configurarFormulario() {
 
-        setTitle("Inscripción");
+        setTitle("Inscripción");  
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        spAnio.setValue(java.time.Year.now().getValue());
-        cbCuatrimestre.removeAllItems();
+        spAnio.setValue(java.time.Year.now().getValue());  // obtenemos el año actual, el spinner permite seleccionar o modificar un valor 
+        cbCuatrimestre.removeAllItems();   // carga los cuatrimestres 
         cbCuatrimestre.addItem("1");
         cbCuatrimestre.addItem("2");
 
-        DefaultTableModel modelo = new DefaultTableModel(
+        DefaultTableModel modelo = new DefaultTableModel(  // configuramos la tabla 
                 new Object[][]{},
                 new String[]{
                     "ID", "Alumno", "Materia",
@@ -59,7 +59,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
             }
         };
 
-        tblInscripciones.setModel(modelo);
+        tblInscripciones.setModel(modelo);  // conectamos la tabla 
     }
 
     private void cargarAlumnos() {
@@ -68,7 +68,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         listaAlumnos = new ArrayList<>();
 
         DefaultComboBoxModel<String> modelo
-                = new DefaultComboBoxModel<>();
+                = new DefaultComboBoxModel<>();  
 
         // Recorremos todos los alumnos de la base de datos
         for (Alumno alumno : alumnoData.listarAlumnos()) {
@@ -189,6 +189,8 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInscripciones = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         jlTitulo.setFont(new java.awt.Font("Corbel", 0, 21)); // NOI18N
         jlTitulo.setText("Inscripción");
@@ -238,6 +240,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
+        jButton1.setText("jButton1");
+
+        btnEliminar.setText("Eliminar Inscripcion");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -246,32 +253,37 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbCuatrimestre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jlMateria)
-                                    .addComponent(jblCustrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chkRecursante, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblAlumno))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jlAnio)
-                                .addGap(18, 18, 18)
-                                .addComponent(spAnio))
-                            .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(116, 116, 116)
                         .addComponent(jbLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbCuatrimestre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(jlAnio)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(spAnio))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jlMateria)
+                                            .addComponent(jblCustrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(chkRecursante, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblAlumno)
+                                            .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(61, 61, 61))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,7 +291,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jlTitulo)
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAlumno)
                         .addGap(35, 35, 35)
@@ -288,13 +300,17 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                         .addComponent(jlMateria)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlAnio))
-                        .addGap(27, 27, 27)
-                        .addComponent(jblCustrimestre))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlAnio))
+                .addGap(2, 2, 2)
+                .addComponent(btnEliminar)
+                .addGap(1, 1, 1)
+                .addComponent(jblCustrimestre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
@@ -413,13 +429,58 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        int fila = tblInscripciones.getSelectedRow();   // obtiene la fila seleccionada
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná una inscripción para eliminar.");
+            return;
+        }
+
+        int idCursada = (Integer) tblInscripciones.getValueAt(fila, 0);    // obtiene el idCursada 
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro de que querés eliminar esta inscripción?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean eliminado = cursadaData.borrarCursada(idCursada);   // borra la cursada
+        if (eliminado) {
+            cargarInscripciones();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "La inscripción fue eliminada.",
+                    "Inscripción eliminada",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No se pudo eliminar la inscripción.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JComboBox<String> cbAlumno;
     private javax.swing.JComboBox<String> cbCuatrimestre;
     private javax.swing.JComboBox<String> cbMateria;
     private javax.swing.JCheckBox chkRecursante;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbLimpiar;

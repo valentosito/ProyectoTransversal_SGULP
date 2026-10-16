@@ -75,7 +75,7 @@ public class CursadaData {
     }
 
     // borrar la cursada ( recibe solo id q se genero antes y lo elimina a traves de delete)
-    public void borrarCursada(int idCursada) {
+    public boolean borrarCursada(int idCursada) {
 
         String sql = "DELETE FROM cursada WHERE idCursada = ?";
 
@@ -84,16 +84,13 @@ public class CursadaData {
             PreparedStatement ps = connection.prepareStatement(sql);
 
             ps.setInt(1, idCursada);
-
-            ps.executeUpdate();
-
-            ps.close();
-
-            System.out.println("Cursada borrada correctamente.");
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
 
         } catch (SQLException e) {
 
             System.out.println("Error al borrar cursada: " + e.getMessage());
+            return false;
         }
     }
 

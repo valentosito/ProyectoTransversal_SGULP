@@ -6,13 +6,13 @@ package vistas;
 
 import java.awt.Component;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import persistencia.AlumnoData;
 import javax.swing.table.DefaultTableModel;
 import modelo.Alumno;
-
 
 
 /**
@@ -60,7 +60,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         jbListar = new javax.swing.JButton();
         jbNuevo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtAlumnos = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Alumnos");
@@ -113,7 +113,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         jbNuevo.setText("Nuevo");
         jbNuevo.addActionListener(this::jbNuevoActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -135,7 +135,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtAlumnos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -426,32 +426,21 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbActualizarActionPerformed
 
     private void jbListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarActionPerformed
-         ArrayList<Alumno> lista = alumnoData.listarAlumnos();
-
-    // Obtener el modelo de la tabla
-    DefaultTableModel modelo = (DefaultTableModel) jtAlumnos.getModel();
-
-    // Limpiar la tabla antes de cargar los datos
-    modelo.setRowCount(0);
-
-    // Recorrer la lista y agregar cada alumno a la tabla
-    for (Alumno a : lista) {
-
-        Object[] fila = {
-            a.getIdAlumno(),
-            a.getDni(),
-            a.getNombre(),
-            a.getApellido(),
-            a.getFecNac(),
-            a.isEstado()
-        };
-
-        modelo.addRow(fila);
-    }
-
-    JOptionPane.showMessageDialog(this,
-            "Se listaron " + lista.size() + " alumnos.");
-}
+        ArrayList<Alumno> lista = alumnoData.listarAlumnos();
+        DefaultTableModel modelo = (DefaultTableModel) jtAlumnos.getModel();
+        modelo.setRowCount(0);
+        for (Alumno a : lista) {
+            modelo.addRow(new Object[]{
+                a.getIdAlumno(),
+                a.getDni(),
+                a.getNombre(),
+                a.getApellido(),
+                a.getFecNac(),
+                a.isEstado()
+            });
+            
+        }
+        JOptionPane.showMessageDialog(this, "Se listaron " + lista.size() + " alumnos.");
     }//GEN-LAST:event_jbListarActionPerformed
 
 
@@ -465,7 +454,6 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbAlta;
     private javax.swing.JButton jbBaja;
@@ -474,6 +462,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbListar;
     private javax.swing.JButton jbNuevo;
+    private javax.swing.JTable jtAlumnos;
     private javax.swing.JTextField tfApellido;
     private javax.swing.JTextField tfDNI;
     private javax.swing.JTextField tfEstado;

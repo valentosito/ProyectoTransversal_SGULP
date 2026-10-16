@@ -33,95 +33,95 @@ public class AlumnoData {
     alumnoData.guardarAlumno(alumno);  
     */
     
+    
     // Alta de Alumno. (INSERT) 
     // Crear un registro nuevo.
-    
     public boolean guardarAlumno(Alumno alumno) {
-        
+  
         // Recibir un objeto Alumno y convertir sus datos en una operación SQL:
         String sql = "INSERT INTO alumno (dni, nombre, apellido, fecNac, estado) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            
             // ps quedó preparado con un INSERT:
             PreparedStatement ps = connection.prepareStatement(sql);
-            
-            ps.setInt(1, alumno.getDni());
+
+            ps.setString(1, alumno.getDni());
             ps.setString(2, alumno.getNombre());
             ps.setString(3, alumno.getApellido());
             ps.setDate(4, Date.valueOf(alumno.getFecNac()));
             ps.setBoolean(5, alumno.isEstado());
-            
+
             // executeUpdate ordena a la BD que se ejecute el INSERT previamente cargado en la variable sql.
-            ps.executeUpdate();  
+            int filasModificadas = ps.executeUpdate();
             ps.close();
-            
-            System.out.println("Alumno guardado correctamente.");
-            return true;
+
+            return filasModificadas > 0;
+
         } catch (SQLException e) {
-            
             System.out.println("Error al guardar alumno: " + e.getMessage());
             return false;
         }
+        
     }
 
     
-    // Baja de Alumno. (UPDATE) 
-    // Recibe un idAlumno y elimina el registro correspondiente de la tabla.  
-    
+    // Baja física de Alumno. (UPDATE) 
+    // Recibe un idAlumno y elimina el registro correspondiente de la BD.   
     public boolean borrarAlumno(int idAlumno) {
-        
+
         String sql = "DELETE FROM alumno WHERE idAlumno = ?";
 
         try {
-            
+
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, idAlumno);
 
-            int filas = ps.executeUpdate();
+            int filasModificadas = ps.executeUpdate();
             ps.close();
 
-            System.out.println("Alumno borrado correctamente.");
-            if (filas > 0) {
+            if (filasModificadas > 0) {
+                System.out.println("Alumno borrado correctamente.");
                 return true;
             } else {
-                System.out.println("No se encontró una materia con id " + idAlumno);
+                System.out.println("No existe un alumno con ese ID.");
                 return false;
             }
+
         } catch (SQLException e) {
             System.out.println("Error al borrar alumno: " + e.getMessage());
             return false;
         }
+    
     }
     
       
     // Modificación de Alumno. (UPDATE)
-    
     public boolean actualizarAlumno(Alumno alumno) {
         
         String sql = "UPDATE alumno SET dni = ?, nombre = ?, apellido = ?, fecNac = ?, estado = ? WHERE idAlumno = ?";
 
         try {
-            
+
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            ps.setInt(1, alumno.getDni());
+            ps.setString(1, alumno.getDni());
             ps.setString(2, alumno.getNombre());
             ps.setString(3, alumno.getApellido());
             ps.setDate(4, Date.valueOf(alumno.getFecNac()));
             ps.setBoolean(5, alumno.isEstado());
             ps.setInt(6, alumno.getIdAlumno());
 
-            int filas = ps.executeUpdate();
+            int filasModificadas = ps.executeUpdate();
             ps.close();
 
-            System.out.println("Alumno actualizado correctamente.");
-            if (filas > 0) {
+            if (filasModificadas > 0) {
+                System.out.println("Alumno actualizado correctamente.");
                 return true;
             } else {
-                System.out.println("No se encontró un alumno con id " + alumno.getIdAlumno());
+                System.out.println("No existe un alumno con ese ID.");
                 return false;
             }
+
         } catch (SQLException e) {
             System.out.println("Error al actualizar alumno: " + e.getMessage());
             return false;
@@ -132,56 +132,53 @@ public class AlumnoData {
     // ESTADO ACTIVO-INACTIVO //
     
     // Método que reactiva un registro existente con estado inactivo: pasar de estado false a true. (UPDATE)
-    
-    public boolean bajaEstado(int idAlumno) {
-        
+    public boolean altaEstado(int idAlumno) {
+
         String sql = "UPDATE alumno SET estado = true WHERE idAlumno = ?";
 
         try {
-            
             PreparedStatement ps = connection.prepareStatement(sql);
-
             ps.setInt(1, idAlumno);
 
-            int filas = ps.executeUpdate();
+            int filasModificadas = ps.executeUpdate();
             ps.close();
-            
-            System.out.println("Alumno dado de alta correctamente.");
-            if (filas > 0) {
+
+            if (filasModificadas > 0) {
+                System.out.println("Alumno dado de alta correctamente.");
                 return true;
             } else {
-                System.out.println("No se encontró un alumno con id " + idAlumno);
+                System.out.println("No existe un alumno con ese ID.");
                 return false;
             }
+
         } catch (SQLException e) {
             System.out.println("Error al dar de alta al alumno: " + e.getMessage());
             return false;
         }
     }
     
-    // Método que desactiva un registro existente con estado activo: pasar de estado true a false. (UPDATE)
-    
-    public boolean altaEstado(int idAlumno) {
-        
+    // Método que desactiva un registro existente con estado activo: pasar de estado true a false. (UPDATE) 
+    // Baja lógica de Alumno
+    public boolean bajaEstado(int idAlumno) {
+   
         String sql = "UPDATE alumno SET estado = false WHERE idAlumno = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-
             ps.setInt(1, idAlumno);
 
-            int filas = ps.executeUpdate();
+            int filasModificadas = ps.executeUpdate();
             ps.close();
-            
-            System.out.println("Alumno dado de baja correctamente.");
-            if (filas > 0) {
+
+            if (filasModificadas > 0) {
+                System.out.println("Alumno dado de baja correctamente.");
                 return true;
             } else {
-                System.out.println("No se encontró un alumno con id " + idAlumno);
+                System.out.println("No existe un alumno con ese ID.");
                 return false;
             }
+
         } catch (SQLException e) {
-            
             System.out.println("Error al dar de baja al alumno: " + e.getMessage());
             return false;
         }
@@ -192,8 +189,7 @@ public class AlumnoData {
     // CONSULTAS //
     
     
-    // Buscar UN alumno según el id. (SELECT)
-    
+    // Buscar UN alumno según el id. (SELECT)  
     public Alumno buscarAlumno(int idAlumno) {
         
         // Creo y almaceno consulta.
@@ -215,7 +211,7 @@ public class AlumnoData {
   
                 // Creo un objeto Alumno usando los datos recuperados de la BD.
                 Alumno alumno = new Alumno(
-                        rs.getInt("idAlumno"), rs.getInt("dni"), rs.getString("nombre"), 
+                        rs.getInt("idAlumno"), rs.getString("dni"), rs.getString("nombre"), 
                         rs.getString("apellido"), rs.getDate("fecNac").toLocalDate(), rs.getBoolean("estado"));
 
                 rs.close();
@@ -238,7 +234,6 @@ public class AlumnoData {
     
     
     // Listar TODOS los alumnos. (SELECT)
-    
     public ArrayList<Alumno> listarAlumnos() {
         
         ArrayList<Alumno> lista = new ArrayList<>();
@@ -254,7 +249,7 @@ public class AlumnoData {
             while (rs.next()) {
                 
                 Alumno alumno = new Alumno(
-                        rs.getInt("idAlumno"), rs.getInt("dni"), rs.getString("nombre"), 
+                        rs.getInt("idAlumno"), rs.getString("dni"), rs.getString("nombre"), 
                         rs.getString("apellido"), rs.getDate("fecNac").toLocalDate(), rs.getBoolean("estado"));
 
                 lista.add(alumno);

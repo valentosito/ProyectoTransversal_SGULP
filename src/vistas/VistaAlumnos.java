@@ -4,9 +4,16 @@
  */
 package vistas;
 
+import java.awt.Component;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import persistencia.AlumnoData;
 import javax.swing.table.DefaultTableModel;
+import modelo.Alumno;
+
+
 
 /**
  *
@@ -45,7 +52,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         tfFechaN = new javax.swing.JTextField();
         tfEstado = new javax.swing.JTextField();
         jbGuardar = new javax.swing.JButton();
-        jbBorrar = new javax.swing.JButton();
+        jbEliminar = new javax.swing.JButton();
         jbActualizar = new javax.swing.JButton();
         jbAlta = new javax.swing.JButton();
         jbBaja = new javax.swing.JButton();
@@ -76,12 +83,15 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
 
         jbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(this::jbGuardarActionPerformed);
 
-        jbBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
-        jbBorrar.setText("Borrar");
+        jbEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
+        jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(this::jbEliminarActionPerformed);
 
         jbActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         jbActualizar.setText("Actualizar");
+        jbActualizar.addActionListener(this::jbActualizarActionPerformed);
 
         jbAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/alta.png"))); // NOI18N
         jbAlta.setText("Alta");
@@ -89,12 +99,15 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
 
         jbBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/baja.png"))); // NOI18N
         jbBaja.setText("Baja");
+        jbBaja.addActionListener(this::jbBajaActionPerformed);
 
         jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
         jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(this::jbBuscarActionPerformed);
 
         jbListar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/listar.png"))); // NOI18N
         jbListar.setText("Listar");
+        jbListar.addActionListener(this::jbListarActionPerformed);
 
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         jbNuevo.setText("Nuevo");
@@ -134,7 +147,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jbEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(80, 80, 80)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -216,7 +229,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                             .addComponent(jbBuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbBorrar)
+                            .addComponent(jbEliminar)
                             .addComponent(jbActualizar)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbListar)
@@ -247,7 +260,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         try {
             int id = Integer.parseInt(idAlumno);
 
-            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro quieres dar de alta esta materia?", "Confirmar", JOptionPane.YES_NO_OPTION
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro quieres dar de alta a este alumno?", "Confirmar", JOptionPane.YES_NO_OPTION
             );
 
             if (respuesta == JOptionPane.YES_OPTION) {
@@ -278,6 +291,169 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         tfEstado.setText("");
     }//GEN-LAST:event_jbNuevoActionPerformed
 
+    private void jbBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBajaActionPerformed
+        String idAlumno = tfID.getText().trim();
+
+        if (idAlumno.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID del alumno.");
+            return;
+        }
+
+        try {
+            int id = Integer.parseInt(idAlumno);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro quieres dar de baja a este alumno?", "Confirmar", JOptionPane.YES_NO_OPTION
+            );
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+
+                boolean resultado = alumnoData.bajaEstado(id);
+
+                if (resultado) {
+                    JOptionPane.showMessageDialog(this, "La baja se realizó correctamente."
+                    );
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo realizar la baja."
+                    );
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero."
+            );
+        }
+    }//GEN-LAST:event_jbBajaActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        if (tfID.getText().trim().isEmpty() || tfNombre.getText().trim().isEmpty() || tfApellido.getText().trim().isEmpty() || tfDNI.getText().trim().isEmpty() || tfFechaN.getText().trim().isEmpty() || tfEstado.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+        }else {
+            String nombre = tfNombre.getText();
+            String apellido = tfApellido.getText();
+            int dni = Integer.parseInt(tfDNI.getText().trim());
+            LocalDate fechaN = LocalDate.parse(tfFechaN.getText());
+            String textoEstado = tfEstado.getText().trim();
+            boolean estado = Boolean.parseBoolean(textoEstado);
+            Alumno a = new Alumno(dni, nombre,apellido, fechaN, estado);
+            if (alumnoData.guardarAlumno(a)) {
+                JOptionPane.showMessageDialog(this, "Alumno guardado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar el alumno.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        String idAlumno = tfID.getText().trim();
+
+        if (idAlumno.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID del alumno.");
+            return;
+        }
+        try {
+            int id = Integer.parseInt(tfID.getText());
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que quiéres eliminar la materia?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                boolean resultado = alumnoData.borrarAlumno(id);
+
+                if (resultado) {
+                    JOptionPane.showMessageDialog(this, "Se ha eliminado el alumno correctamente."
+                    );
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el alumno."
+                    );
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero."
+            );
+        }
+    }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        try {
+            String idIngresado = tfID.getText().trim();
+
+            if (idIngresado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe completar el campo ID.");
+            } else {
+
+                int idAlumno = Integer.parseInt(idIngresado);
+                Alumno a = alumnoData.buscarAlumno((idAlumno));
+                if (a == null) {
+                    JOptionPane.showMessageDialog(this, "Materia no encontrada");
+                } else {
+                    int id = a.getIdAlumno();
+                    int dni = a.getDni();
+                    String nombre = a.getNombre();
+                    String apellido = a.getNombre();
+                    LocalDate fechaN = a.getFecNac();
+                    boolean estado = a.isEstado();
+
+                    tfID.setText(String.valueOf(id));
+                    tfDNI.setText(String.valueOf(dni));
+                    tfNombre.setText(nombre);
+                    tfApellido.setText(apellido);
+                    tfFechaN.setText(fechaN.toString());
+                    tfEstado.setText(String.valueOf(estado));
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
+        }
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
+        if (tfID.getText().trim().isEmpty() || tfNombre.getText().trim().isEmpty() || tfApellido.getText().trim().isEmpty() || tfDNI.getText().trim().isEmpty() || tfFechaN.getText().trim().isEmpty() || tfEstado.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int id = Integer.parseInt(tfID.getText());
+            int dni = Integer.parseInt(tfDNI.getText());
+            String nombre = tfNombre.getText();
+            String apellido = tfApellido.getText();
+            LocalDate fechaN = LocalDate.parse(tfFechaN.getText());
+            boolean estado = Boolean.parseBoolean(tfEstado.getText());
+            Alumno a = new Alumno(dni, nombre,apellido, fechaN, estado);
+            if (alumnoData.actualizarAlumno(a)) {
+                JOptionPane.showMessageDialog(this, "Se ha actualizado la materia correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar la materia.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jbActualizarActionPerformed
+
+    private void jbListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarActionPerformed
+         ArrayList<Alumno> lista = alumnoData.listarAlumnos();
+
+    // Obtener el modelo de la tabla
+    DefaultTableModel modelo = (DefaultTableModel) jtAlumnos.getModel();
+
+    // Limpiar la tabla antes de cargar los datos
+    modelo.setRowCount(0);
+
+    // Recorrer la lista y agregar cada alumno a la tabla
+    for (Alumno a : lista) {
+
+        Object[] fila = {
+            a.getIdAlumno(),
+            a.getDni(),
+            a.getNombre(),
+            a.getApellido(),
+            a.getFecNac(),
+            a.isEstado()
+        };
+
+        modelo.addRow(fila);
+    }
+
+    JOptionPane.showMessageDialog(this,
+            "Se listaron " + lista.size() + " alumnos.");
+}
+    }//GEN-LAST:event_jbListarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -293,8 +469,8 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbAlta;
     private javax.swing.JButton jbBaja;
-    private javax.swing.JButton jbBorrar;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbListar;
     private javax.swing.JButton jbNuevo;

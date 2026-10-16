@@ -120,7 +120,7 @@ public class AlumnoData {
     
     // Método que reactiva un registro existente con estado inactivo: pasar de estado false a true. (UPDATE)
     
-    public void bajaEstado(int idAlumno) {
+    public boolean bajaEstado(int idAlumno) {
         
         String sql = "UPDATE alumno SET estado = true WHERE idAlumno = ?";
 
@@ -134,15 +134,16 @@ public class AlumnoData {
             ps.close();
             
             System.out.println("Alumno dado de alta correctamente.");
-
+            return true;
         } catch (SQLException e) {
             System.out.println("Error al dar de alta al alumno: " + e.getMessage());
+            return false;
         }
     }
     
     // Método que desactiva un registro existente con estado activo: pasar de estado true a false. (UPDATE)
     
-    public void altaEstado(int idAlumno) {
+    public boolean altaEstado(int idAlumno) {
         
         String sql = "UPDATE alumno SET estado = false WHERE idAlumno = ?";
 
@@ -155,11 +156,13 @@ public class AlumnoData {
             ps.close();
             
             System.out.println("Alumno dado de baja correctamente.");
-
+            return true;
         } catch (SQLException e) {
             
             System.out.println("Error al dar de baja al alumno: " + e.getMessage());
+            return false;
         }
+        
     }
     
         

@@ -72,20 +72,31 @@ public class Conexion {
     }
     
     
+    // Comprobar si el objeto de conexión se obtuvo o no:
+    public boolean isConectado() {
+        
+        return connection != null;
+    }
     
-    /*    
+    
+    /*
     getInstancia()
-     ↓
+        ↓
     new Conexion()
-     ↓
+        ↓
     constructor
-     ↓
+        ↓
     DriverManager.getConnection(...)
-     ↓
+        ↓
     Connection
-     ↓
-    MariaDB   
+        ↓
+    isConectado()
+        ↓
+    Verifica si se obtuvo una conexión (connection != null)
+        ↓
+    getConnection()
+        ↓
+    Devuelve el objeto Connection para que lo utilicen las clases Data
     */
-    
     
 }

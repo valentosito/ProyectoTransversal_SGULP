@@ -1,11 +1,11 @@
+
 package persistencia;
 
 import modelo.Alumno;
 import modelo.Cursada;
 import modelo.Materia;
-import org.mariadb.jdbc.Connection;
-/*import java.sql.Connection;*/
-
+//import org.mariadb.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,21 +74,56 @@ public class CursadaData {
         return ultimoError;
     }
 
-    // borrar la cursada ( recibe solo id q se genero antes y lo elimina a traves de delete)
+    // borrar la cursada (recibe solo id q se genero antes y lo elimina a traves de delete)
+    
+    // Agrego modificación para que el método no permita eliminar una cursada si ya tiene una nota final registrada,
+    // y para que deje inactivo al estado de Alumno en caso de que no exista otra cursada asociada.
     public boolean borrarCursada(int idCursada) {
 
-        String sql = "DELETE FROM cursada WHERE idCursada = ?";
+        // Buscar Cursada asociada a Alumno
+        Cursada cursada = buscarCursada(idCursada);
+
+        if (cursada == null) {
+            
+            System.out.println("No existe la cursada indicada.");
+            return false;
+        }
+
+        // Restricción: la base de datos solo elimina la cursada cuando no tiene una nota final registrada.
+        if (cursada.getNotaFinal() != null) {
+            
+            System.out.println("No se puede eliminar una cursada con nota final.");
+            return false;
+        }
+
+        // Caso en donde sí hay una Cursada sin nota final asociada a un Alumno:
+        int idAlumno = cursada.getAlumno().getIdAlumno();
+
+        String sql = "DELETE FROM cursada WHERE idCursada = ? AND notaFinal IS NULL";
 
         try {
-
             PreparedStatement ps = connection.prepareStatement(sql);
-
             ps.setInt(1, idCursada);
+
             int filasAfectadas = ps.executeUpdate();
-            return filasAfectadas > 0;
+            ps.close();
+
+            if (filasAfectadas == 0) {
+                return false;
+            }
+
+            // Comprobar si el alumno conserva otras cursadas
+            ArrayList<Cursada> cursadasRestantes = listarCursadasPorAlumno(idAlumno);
+
+            if (cursadasRestantes.isEmpty()) {
+                
+                AlumnoData alumnoData = new AlumnoData();
+                alumnoData.bajaEstado(idAlumno);
+            }
+            
+            return true;
 
         } catch (SQLException e) {
-
             System.out.println("Error al borrar cursada: " + e.getMessage());
             return false;
         }

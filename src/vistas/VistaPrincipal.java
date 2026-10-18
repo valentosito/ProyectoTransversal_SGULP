@@ -151,8 +151,27 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     public static void main(String args[]) {
 
-        java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
+        // Esta línea no comprueba si la conexión con MariaDB se estableció correctamente o no,  
+        // por lo que la ventana principal se puede abrir aunque la base de datos esté apagada.
+        // java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
+        
+        persistencia.Conexion conexion = persistencia.Conexion.getInstancia();
+
+        if (!conexion.isConectado()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    null,
+                    "No se pudo conectar con la base de datos SGULP.\n"
+                    + "Verifica que MariaDB esté iniciado y reiniciá la aplicación.",
+                    "Error de conexión",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            System.exit(0);
+        }
+
+        new VistaPrincipal().setVisible(true);
+        
     }
+        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

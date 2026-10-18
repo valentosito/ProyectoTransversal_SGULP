@@ -4,6 +4,66 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
 
+    /*
+        Flujo:
+        Abrir Alumnos por primera vez
+        Se crea una instancia, se agrega al escritorio y se muestra.
+        ↓
+        Abrir Materias
+        Se crea otra ventana. Alumnos sigue abierta en el escritorio.
+        ↓
+        Volver a pulsar Alumnos
+        Se reutiliza la instancia existente y se la lleva al frente; no se crea otra.
+        ↓
+        Alumnos estaba minimizada
+        Se restaura y se intenta seleccionarla.
+    
+    */
+  
+    
+    
+    private <T extends javax.swing.JInternalFrame> void abrirVentana(Class<T> tipoVentana, java.util.function.Supplier<T> creador) {
+
+        // Buscar si ya existe una ventana de este tipo.
+        for (javax.swing.JInternalFrame ventana : jDesktopPane1.getAllFrames()) {
+
+            if (tipoVentana.isInstance(ventana)) {
+
+                try {
+                    // Si estaba minimizada, restaurar.
+                    if (ventana.isIcon()) {
+                        ventana.setIcon(false);
+                    }
+
+                    // Llevarla al frente y seleccionarla.
+                    jDesktopPane1.moveToFront(ventana);
+                    ventana.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException e) {
+                    System.out.println("No se pudo seleccionar la ventana: "
+                            + e.getMessage());
+                }
+
+                return;
+            }
+        }
+
+        // Si no existe una instancia, crear una nueva.
+        T ventana = creador.get();
+
+        jDesktopPane1.add(ventana);
+        ventana.setVisible(true);
+        jDesktopPane1.moveToFront(ventana);
+
+        try {
+            ventana.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {
+            System.out.println("No se pudo seleccionar la ventana: "
+                    + e.getMessage());
+        }
+    }
+
+    
     public VistaPrincipal() {
         initComponents();
 
@@ -103,26 +163,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mniMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniMateriasActionPerformed
-        jDesktopPane1.removeAll();
-        jDesktopPane1.repaint();
-        VistaMaterias vista = new VistaMaterias();
-        jDesktopPane1.add(vista);
-        vista.setVisible(true);
-        jDesktopPane1.moveToFront(vista);
+        abrirVentana(VistaMaterias.class, VistaMaterias::new);
     }//GEN-LAST:event_mniMateriasActionPerformed
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
-        // Creamos la ventana interna
-        VistaAsistencia vista = new VistaAsistencia();
-
-        // La agregamos al escritorio principal
-        jDesktopPane1.add(vista);
-
-        // Mostramos la ventana
-        vista.setVisible(true);
-
-        // La llevamos al frente
-        jDesktopPane1.moveToFront(vista);
+       abrirVentana(VistaAsistencia.class, VistaAsistencia::new);
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
@@ -131,22 +176,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void mniAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAlumnosActionPerformed
 
-        VistaAlumnos vista = new VistaAlumnos();
-        jDesktopPane1.add(vista);
-        vista.setVisible(true);
+        abrirVentana(VistaAlumnos.class, VistaAlumnos::new);
 
     }//GEN-LAST:event_mniAlumnosActionPerformed
 
     private void mniInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniInscripcionActionPerformed
         
-        // creamos la ventana interna 
-        VistaInscripcion vista = new VistaInscripcion();
-        //  la agregamos al escritorio principal
-        jDesktopPane1.add(vista);
-        // // la mostramos 
-        vista.setVisible(true);
-        // la ponemos al frente
-        jDesktopPane1.moveToFront(vista);
+         abrirVentana(VistaInscripcion.class, VistaInscripcion::new);
     }//GEN-LAST:event_mniInscripcionActionPerformed
 
     public static void main(String args[]) {
@@ -155,20 +191,24 @@ public class VistaPrincipal extends javax.swing.JFrame {
         // por lo que la ventana principal se puede abrir aunque la base de datos esté apagada.
         // java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
         
-        persistencia.Conexion conexion = persistencia.Conexion.getInstancia();
+        java.awt.EventQueue.invokeLater(() -> {
 
-        if (!conexion.isConectado()) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    null,
-                    "No se pudo conectar con la base de datos SGULP.\n"
-                    + "Verifica que MariaDB esté iniciado y reiniciá la aplicación.",
-                    "Error de conexión",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
-            System.exit(0);
-        }
+            persistencia.Conexion conexion = persistencia.Conexion.getInstancia();
 
-        new VistaPrincipal().setVisible(true);
+            if (!conexion.isConectado()) {
+                javax.swing.JOptionPane.showMessageDialog(
+                        null,
+                        "No se pudo conectar con la base de datos SGULP.\n"
+                        + "Verificá que MariaDB esté iniciado y reiniciá la aplicación.",
+                        "Error de conexión",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                );
+
+                System.exit(0);
+            }
+
+            new VistaPrincipal().setVisible(true);
+        });
         
     }
         

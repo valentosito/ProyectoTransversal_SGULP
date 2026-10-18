@@ -121,7 +121,7 @@ public class CursadaData {
                 alumnoData.bajaEstado(idAlumno);
             }
             
-            return true;
+            return true;  
 
         } catch (SQLException e) {
             System.out.println("Error al borrar cursada: " + e.getMessage());
@@ -153,7 +153,6 @@ public class CursadaData {
             ps.setInt(4, cursada.getCuatrimestre());
             ps.setInt(5, cursada.getCondicion());
             ps.setBoolean(6, cursada.isRecursante());
-            //ps.setDouble(7, cursada.getNotaFinal());
 
             if (cursada.getNotaFinal() != null) {
                 ps.setDouble(7, cursada.getNotaFinal());
@@ -164,11 +163,15 @@ public class CursadaData {
             ps.setInt(8, cursada.getPorcAsistencia());
             ps.setInt(9, cursada.getIdCursada());
 
-            ps.executeUpdate();
+            int filas = ps.executeUpdate();
 
             ps.close();
 
-            System.out.println("Cursada actualizada correctamente.");
+            if (filas > 0) {
+                System.out.println("Cursada actualizada correctamente.");
+            } else {
+                System.out.println("No se encontró la cursada o no se realizaron cambios.");
+            }
 
         } catch (SQLException e) {
 
@@ -370,7 +373,7 @@ public class CursadaData {
                         rs.getInt("anio"),
                         rs.getInt("cuatrimestre"),
                         rs.getInt("condicion"),
-                        rs.getDouble("notaFinal"),
+                        rs.getObject("notaFinal", Double.class), // Evitar que una nota nula se interprete como 0.0.
                         rs.getBoolean("recursante"),
                         rs.getInt("asistencia"),
                         alumno,

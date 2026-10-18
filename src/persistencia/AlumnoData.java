@@ -41,10 +41,11 @@ public class AlumnoData {
         // Recibir un objeto Alumno y convertir sus datos en una operación SQL:
         String sql = "INSERT INTO alumno (dni, nombre, apellido, fecNac, estado) VALUES (?, ?, ?, ?, ?)";
 
-        try {
-            // ps quedó preparado con un INSERT:
-            PreparedStatement ps = connection.prepareStatement(sql);
-
+        
+        //// CAMBIO 1: declarar PreparedStatement dentro del try:
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {   // ps quedó preparado con un INSERT:
+            
+            
             ps.setString(1, alumno.getDni());
             ps.setString(2, alumno.getNombre());
             ps.setString(3, alumno.getApellido());
@@ -53,7 +54,8 @@ public class AlumnoData {
 
             // executeUpdate ordena a la BD que se ejecute el INSERT previamente cargado en la variable sql.
             int filasModificadas = ps.executeUpdate();
-            ps.close();
+            
+            ////  CAMBIO 2: eliminar ps.close()
 
             return filasModificadas > 0;
 
@@ -65,19 +67,17 @@ public class AlumnoData {
     }
 
     
-    // Baja física de Alumno. (UPDATE) 
+    // Baja física de Alumno. (DELETE) 
     // Recibe un idAlumno y elimina el registro correspondiente de la BD.   
     public boolean borrarAlumno(int idAlumno) {
 
         String sql = "DELETE FROM alumno WHERE idAlumno = ?";
 
-        try {
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
 
-            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, idAlumno);
 
             int filasModificadas = ps.executeUpdate();
-            ps.close();
 
             if (filasModificadas > 0) {
                 System.out.println("Alumno borrado correctamente.");
@@ -88,7 +88,7 @@ public class AlumnoData {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al borrar alumno: " + e.getMessage());
+            System.out.println("No se pudo borrar el alumno. Puede tener cursadas asociadas.");
             return false;
         }
     
@@ -147,7 +147,7 @@ public class AlumnoData {
                 System.out.println("Alumno dado de alta correctamente.");
                 return true;
             } else {
-                System.out.println("No existe un alumno con ese ID.");
+                System.out.println("No se modificó el estado del alumno.");
                 return false;
             }
 
@@ -174,7 +174,7 @@ public class AlumnoData {
                 System.out.println("Alumno dado de baja correctamente.");
                 return true;
             } else {
-                System.out.println("No existe un alumno con ese ID.");
+                System.out.println("No se modificó el estado del alumno.");
                 return false;
             }
 

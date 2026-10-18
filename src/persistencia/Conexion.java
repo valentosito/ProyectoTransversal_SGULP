@@ -43,7 +43,9 @@ public class Conexion {
             
             
         } catch (SQLException e) {
-            System.out.println("Error de conexión: " + e.getMessage());
+            
+             System.out.println("Error de conexión: " + e.getMessage());
+             
         }
 
     
@@ -75,7 +77,11 @@ public class Conexion {
     // Comprobar si el objeto de conexión se obtuvo o no:
     public boolean isConectado() {
         
-        return connection != null;
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException e) {
+            return false;
+        }
     }
     
     

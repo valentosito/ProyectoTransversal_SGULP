@@ -67,7 +67,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
         
-        java.net.URL recurso = getClass().getResource("/imagenes/logoULP.png");
+        setIconImage(new javax.swing.ImageIcon(
+                getClass().getResource("/imagenes/logoULP.png")
+        ).getImage());
 
     }
 

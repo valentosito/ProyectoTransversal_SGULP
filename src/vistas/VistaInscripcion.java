@@ -435,16 +435,16 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
         if (fila == -1) {
             JOptionPane.showMessageDialog(this,
-                    "Seleccioná una inscripción para eliminar.");
+                "Seleccioná una inscripción para eliminar.");
             return;
         }
 
-        int idCursada = (Integer) tblInscripciones.getValueAt(fila, 0);    // obtiene el idCursada 
+        int idCursada = (Integer) tblInscripciones.getValueAt(fila, 0);    // obtiene el idCursada
         int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Seguro de que querés eliminar esta inscripción?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
+            this,
+            "¿Seguro de que querés eliminar esta inscripción?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION
         );
 
         if (confirmacion != JOptionPane.YES_OPTION) {
@@ -456,20 +456,19 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
             cargarInscripciones();
 
             JOptionPane.showMessageDialog(
-                    this,
-                    "La inscripción fue eliminada.",
-                    "Inscripción eliminada",
-                    JOptionPane.INFORMATION_MESSAGE
+                this,
+                "La inscripción fue eliminada.",
+                "Inscripción eliminada",
+                JOptionPane.INFORMATION_MESSAGE
             );
         } else {
             JOptionPane.showMessageDialog(
-                    this,
-                    "No se pudo eliminar la inscripción.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
+                this,
+                "No se pudo eliminar la inscripción.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
             );
         }
-
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 

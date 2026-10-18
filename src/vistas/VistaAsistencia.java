@@ -24,6 +24,15 @@ import javax.swing.table.DefaultTableModel;
             initComponents();
             configurarTabla();
             cargarCursadas();
+            
+            setFrameIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/imagenes/logoULP.png")
+            ));
+            
+            setClosable(true);
+            setIconifiable(true);
+            setMaximizable(true);
+            setResizable(true);
         }
     
 
@@ -149,8 +158,8 @@ import javax.swing.table.DefaultTableModel;
                     .addComponent(chkPresente)
                     .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnLimpiar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)

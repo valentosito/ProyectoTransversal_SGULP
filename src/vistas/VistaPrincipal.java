@@ -66,6 +66,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     public VistaPrincipal() {
         initComponents();
+        
+        java.net.URL recurso = getClass().getResource("/imagenes/logoULP.png");
 
     }
 
@@ -97,11 +99,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 803, Short.MAX_VALUE)
+            .addGap(0, 906, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 568, Short.MAX_VALUE)
+            .addGap(0, 629, Short.MAX_VALUE)
         );
 
         mnuAdministracion.setText("ADMINISTRACIÓN");

@@ -63,7 +63,7 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] Menú principal
 - [ ] `VistaAlumnos`
 - [x] `VistaMaterias`
-- [ ] `VistaInscripcion`
+- [x] `VistaInscripcion`
 - [x] `VistaAsistencia`
 - [ ] `VistaConsultas`
 - [ ] `VistaCalificacion`

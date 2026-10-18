@@ -30,7 +30,15 @@ public class VistaMaterias extends javax.swing.JInternalFrame {
         modoNuevo();
 
         cargarMaterias();
-
+        
+        setFrameIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/imagenes/logoULP.png")
+        ));
+        
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
     }
 
     public void armarCabecera() {

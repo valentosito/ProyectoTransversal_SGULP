@@ -19,6 +19,15 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     
     public VistaAlumnos() {
         initComponents();
+           
+        setFrameIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/imagenes/logoULP.png")
+        ));
+        
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
     }
 
     

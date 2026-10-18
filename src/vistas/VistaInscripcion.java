@@ -32,6 +32,10 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         cbAlumno.setSelectedIndex(-1);
         cbMateria.setSelectedIndex(-1);
         cbCuatrimestre.setSelectedIndex(-1);
+        
+        setFrameIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/imagenes/logoULP.png")
+        ));
 
     }
 

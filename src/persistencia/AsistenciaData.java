@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import modelo.Asistencia;
 import modelo.Cursada;
-//import org.mariadb.jdbc.Connection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -72,46 +71,36 @@ public class AsistenciaData {
             ps.close();
 
         } catch (SQLException e) {
-            System.out.println(" NO se han podido listar las asistencia: " + e.getMessage());
+            System.out.println(" NO se pudieron listar las asistencias: " + e.getMessage());
         }
         return lista;
 
     }
 
+    
+    // Agrego control de filas afectadas para detectar si el ID no corresponde a ningún registro.
     public void actualizarAsistencia(Asistencia asistencia) {
-        String sql = "UPDATE asistencia " + "SET fecha = ?, presente = ? " // con update modificamos un registro, el set establece los nuevos valores y el quere decide que modifica
+
+        String sql = "UPDATE asistencia SET fecha = ?, presente = ? "
                 + "WHERE idAsistencia = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+
             ps.setDate(1, new java.sql.Date(asistencia.getFecha().getTime()));
             ps.setBoolean(2, asistencia.isPresente());
             ps.setInt(3, asistencia.getIdAsistencia());
-            ps.executeUpdate();  // ejecuta la modificacion en la base de datos
+
+            int filas = ps.executeUpdate();
             ps.close();
 
-        } catch (SQLException e) {
-            System.out.println(" No se pudo actualizar la asistencia: " + e.getMessage());
-        }
-    }
-
-    public void eliminarAsistencia(int idAsistencia) {
-
-        String sql = "DELETE FROM asistencia WHERE  idAsistencia = ? ";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-
-            ps.setInt(1, idAsistencia);
-            ps.executeUpdate();
-            ps.close();
+            if (filas == 0) {
+                System.out.println("No se modificó ninguna asistencia."); // cero filas no demuestra ID inexistente.
+            }
 
         } catch (SQLException e) {
-            System.out.println(" No se pudieron hacer cambios en Asistencia; "
-                    + e.getMessage());
-
+            System.out.println("No se pudo actualizar la asistencia: " + e.getMessage());
         }
-
     }
 
 }

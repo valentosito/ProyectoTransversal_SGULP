@@ -102,7 +102,7 @@ public class MateriaData {
                 return false;
             }
         } catch (SQLException e) {
-            System.out.println("Error al borrar la materia: " + e.getMessage());
+            System.out.println("No se pudo borrar la materia. Puede tener cursadas asociadas.");
             return false;
         }
     }

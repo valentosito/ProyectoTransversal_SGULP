@@ -374,20 +374,6 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         // 1. Validar que haya un alumno seleccionado.
         int indiceAlumno = cbAlumno.getSelectedIndex();
 
-<<<<<<< HEAD
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                "Seleccioná una inscripción para eliminar.");
-            return;
-        }
-
-        int idCursada = (Integer) tblInscripciones.getValueAt(fila, 0);    // obtiene el idCursada
-        int confirmacion = JOptionPane.showConfirmDialog(
-            this,
-            "¿Seguro de que querés eliminar esta inscripción?",
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION
-=======
         if (indiceAlumno == -1) {
             JOptionPane.showMessageDialog(
                     this, "Seleccioná un alumno.");
@@ -446,7 +432,6 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                 "¿Seguro que querés eliminar esta inscripción?",
                 "Confirmar eliminación",
                 JOptionPane.YES_NO_OPTION
->>>>>>> bf5e6b4bb07c859a1694cf50fb9ac6d7dd3aa19f
         );
 
         if (confirmacion != JOptionPane.YES_OPTION) {
@@ -462,29 +447,23 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         if (eliminado) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "La inscripción fue eliminada.",
-                "Inscripción eliminada",
-                JOptionPane.INFORMATION_MESSAGE
+                    this,
+                    "La inscripción fue eliminada.",
+                    "Inscripción eliminada",
+                    JOptionPane.INFORMATION_MESSAGE
             );
 
         } else {
 
             JOptionPane.showMessageDialog(
-<<<<<<< HEAD
-                this,
-                "No se pudo eliminar la inscripción.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-=======
                     this,
                     "No se pudo eliminar la inscripción. "
                     + "Verificá si ya tiene una nota final registrada.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
->>>>>>> bf5e6b4bb07c859a1694cf50fb9ac6d7dd3aa19f
             );
         }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void cbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlumnoActionPerformed

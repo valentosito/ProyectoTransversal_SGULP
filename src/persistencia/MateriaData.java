@@ -83,7 +83,6 @@ public class MateriaData {
         }
 
         return materias;
-
     }
 
     public boolean borrarMateria(int id) {

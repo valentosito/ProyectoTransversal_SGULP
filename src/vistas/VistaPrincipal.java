@@ -101,7 +101,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 629, Short.MAX_VALUE)
+            .addGap(0, 699, Short.MAX_VALUE)
         );
 
         mnuAdministracion.setText("ADMINISTRACIÓN");
@@ -114,7 +114,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         mniMaterias.addActionListener(this::mniMateriasActionPerformed);
         mnuAdministracion.add(mniMaterias);
 
-        mnuConsultas.setText("Consultas (¿?)");
+        mnuConsultas.setText("Consultas");
 
         mniMateriasAlumno.setText("Materias de un alumno");
         mniMateriasAlumno.addActionListener(this::mniMateriasAlumnoActionPerformed);

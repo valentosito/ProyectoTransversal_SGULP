@@ -138,8 +138,9 @@ public class Cursada {
         return (presentes * 100) / listaDeAsistencias.size();
 
     }
+    
+    
     // actualizamos el porcentaje de asistencia 
-
     public void actualizarPorcentajeDeAsistencia() {
         this.porcAsistencia = calcularPorcentajeAsistencia();
     }

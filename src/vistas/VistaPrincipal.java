@@ -121,6 +121,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         mnuConsultas.setText("Consultas (¿?)");
 
         mniMateriasAlumno.setText("Materias de un alumno");
+        mniMateriasAlumno.addActionListener(this::mniMateriasAlumnoActionPerformed);
         mnuConsultas.add(mniMateriasAlumno);
 
         mnuAlumnosMateria.setText("Alumnos de una materia");
@@ -188,6 +189,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
         
          abrirVentana(VistaInscripcion.class, VistaInscripcion::new);
     }//GEN-LAST:event_mniInscripcionActionPerformed
+
+    private void mniMateriasAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniMateriasAlumnoActionPerformed
+        abrirVentana(VistaMateriasDeAlumno.class, VistaMateriasDeAlumno::new);
+    }//GEN-LAST:event_mniMateriasAlumnoActionPerformed
 
     public static void main(String args[]) {
 

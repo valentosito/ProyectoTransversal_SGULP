@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2026 a las 17:18:33
+-- Tiempo de generación: 19-10-2026 a las 21:39:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sgulp`
 --
-CREATE DATABASE IF NOT EXISTS `sgulp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `sgulp`;
 
 -- --------------------------------------------------------
 
@@ -43,14 +41,14 @@ CREATE TABLE `alumno` (
 --
 
 INSERT INTO `alumno` (`idAlumno`, `dni`, `nombre`, `apellido`, `fecNac`, `estado`) VALUES
-(1, '45123456', 'Melisa', 'Rodríguez', '1989-09-10', 0),
+(1, '45123456', 'Melisa', 'Rodríguez', '1989-09-10', 1),
 (2, '42345678', 'Valentina', 'Toso', '1995-12-27', 1),
 (3, '46789123', 'Aimé', 'Olivares', '1999-11-03', 1),
 (4, '39876543', 'Joaquín', 'Viarruel', '2002-02-17', 1),
 (5, '41234567', 'Lucas', 'Sosa', '2000-07-29', 1),
 (6, '30111222', 'Hernán', 'López', '2000-05-15', 1),
 (7, '31222333', 'Brenda', 'Martínez', '2001-08-20', 1),
-(8, '32333444', 'Martín', 'García', '1999-03-10', 1);
+(24, '39393510', 'Juan', 'Sosa', '1885-01-12', 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +81,10 @@ INSERT INTO `asistencia` (`idAsistencia`, `idCursada`, `fecha`, `presente`) VALU
 (11, 4, '2026-04-15', 1),
 (12, 4, '2026-04-22', 0),
 (13, 5, '2026-08-04', 1),
-(14, 5, '2026-08-11', 1);
+(14, 5, '2026-08-11', 1),
+(18, 3, '2026-10-19', 1),
+(20, 2, '2026-10-19', 1),
+(21, 4, '2026-10-19', 0);
 
 -- --------------------------------------------------------
 
@@ -108,11 +109,16 @@ CREATE TABLE `cursada` (
 --
 
 INSERT INTO `cursada` (`idCursada`, `idAlumno`, `idMateria`, `anio`, `cuatrimestre`, `condicion`, `recursante`, `notaFinal`, `asistencia`) VALUES
-(1, 1, 101, '2025', 1, 1, 1, 2.5, 45),
-(2, 1, 101, '2026', 1, 3, 1, 8.5, 87),
-(3, 2, 102, '2026', 1, 1, 0, NULL, 90),
-(4, 3, 103, '2026', 1, 3, 0, 9.0, 95),
-(5, 4, 104, '2026', 2, 1, 0, NULL, 80);
+(1, 1, 101, '2025', 1, 1, 1, 2.5, 67),
+(2, 1, 101, '2026', 2, 3, 1, 8.5, 100),
+(3, 2, 101, '2026', 2, 1, 0, NULL, 75),
+(4, 3, 101, '2026', 2, 3, 0, 9.0, 50),
+(5, 4, 101, '2026', 2, 1, 0, NULL, 100),
+(7, 1, 112, '2026', 2, 1, 0, NULL, 0),
+(8, 1, 105, '2026', 2, 1, 0, NULL, 0),
+(9, 4, 112, '2026', 2, 1, 0, NULL, 0),
+(10, 3, 112, '2026', 2, 1, 0, NULL, 0),
+(11, 3, 105, '2026', 2, 1, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -134,13 +140,14 @@ INSERT INTO `materia` (`idMateria`, `nombre`, `estado`) VALUES
 (101, 'Laboratorio 1', 1),
 (102, 'Programación 1', 1),
 (103, 'Matemática 1', 1),
-(104, 'Inglés 1', 1),
-(105, 'Base de Datos 1', 1),
+(104, 'Inglés 1', 0),
+(105, 'Base de Datos 1', 0),
 (106, 'Laboratorio 2', 1),
 (107, 'Programación 2', 1),
 (108, 'Matemática 2', 1),
 (109, 'Inglés 2', 1),
-(110, 'Base de Datos 2', 1);
+(110, 'Base de Datos 3', 1),
+(112, 'Programación Web 1', 1);
 
 --
 -- Índices para tablas volcadas
@@ -182,25 +189,25 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  MODIFY `idAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `cursada`
 --
 ALTER TABLE `cursada`
-  MODIFY `idCursada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idCursada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
 --
 ALTER TABLE `materia`
-  MODIFY `idMateria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `idMateria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- Restricciones para tablas volcadas

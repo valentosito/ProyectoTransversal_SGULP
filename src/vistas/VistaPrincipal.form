@@ -32,18 +32,24 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="mnuConsultas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consultas (&#xbf;?)"/>
+                <Property name="text" type="java.lang.String" value="Consultas"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mniMateriasAlumno">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Materias de un alumno"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniMateriasAlumnoActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuAlumnosMateria">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Alumnos de una materia"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAlumnosMateriaActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -134,7 +140,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="629" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="699" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

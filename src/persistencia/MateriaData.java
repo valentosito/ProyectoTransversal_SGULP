@@ -83,7 +83,6 @@ public class MateriaData {
         }
 
         return materias;
-
     }
 
     public boolean borrarMateria(int id) {
@@ -148,22 +147,26 @@ public class MateriaData {
     }
 
     public boolean actualizarMateria(Materia m) {
-        String sql = "UPDATE materia SET nombre=?, estado=? WHERE idMateria = ?";
+        String sql = "UPDATE materia SET nombre = ? WHERE idMateria = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+
             ps.setString(1, m.getNombre());
-            ps.setBoolean(2, m.isEstado());
-            ps.setInt(3, m.getIdMateria());
+            ps.setInt(2, m.getIdMateria());
+
             int filas = ps.executeUpdate();
             ps.close();
 
             if (filas > 0) {
                 return true;
             } else {
-                System.out.println("No se encontró una materia con id " + m.getIdMateria());
+                System.out.println(
+                        "No se encontró una materia con id " + m.getIdMateria()
+                );
                 return false;
             }
+
         } catch (SQLException e) {
             System.out.println("Error al actualizar la materia: " + e.getMessage());
             return false;

@@ -18,6 +18,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData = new AlumnoData();
     
     public VistaAlumnos() {
+        
         initComponents();
            
         setFrameIcon(new javax.swing.ImageIcon(
@@ -28,8 +29,40 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+
+        jtAlumnos.setDefaultEditor(Boolean.class, null);
+        
+        tfID.setEditable(false);
+        jtAlumnos.setDefaultEditor(Boolean.class, null);
+        jtAlumnos.setDefaultEditor(Object.class, null);
     }
 
+    // Método para refrescar la información de la tabla cada vez que se realiza un cambio.
+    private void cargarTablaAlumnos() {
+        
+        ArrayList<Alumno> lista = alumnoData.listarAlumnos();
+        DefaultTableModel modelo = (DefaultTableModel) jtAlumnos.getModel();
+        modelo.setRowCount(0);
+
+        for (Alumno a : lista) {
+            modelo.addRow(new Object[]{
+                a.getIdAlumno(),
+                a.getDni(),
+                a.getNombre(),
+                a.getApellido(),
+                a.getFecNac(),
+                a.isEstado()
+            });
+        }
+    }
+    
+    private void limpiarFormulario() {
+        tfID.setText("");
+        tfDNI.setText("");
+        tfNombre.setText("");
+        tfApellido.setText("");
+        tfFechaN.setText("");
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -42,13 +75,11 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         tfID = new javax.swing.JTextField();
         tfDNI = new javax.swing.JTextField();
         tfNombre = new javax.swing.JTextField();
         tfApellido = new javax.swing.JTextField();
         tfFechaN = new javax.swing.JTextField();
-        tfEstado = new javax.swing.JTextField();
         jbGuardar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
         jbActualizar = new javax.swing.JButton();
@@ -59,6 +90,9 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
         jbNuevo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAlumnos = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+
+        setTitle("GESTIÓN DE ALUMNOS");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Alumnos");
@@ -75,12 +109,9 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Fecha de Nacimiento:");
 
-        jLabel8.setText("Estado:");
-
-        tfEstado.addActionListener(this::tfEstadoActionPerformed);
-
         jbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         jbGuardar.setText("Guardar");
+        jbGuardar.setPreferredSize(new java.awt.Dimension(125, 55));
         jbGuardar.addActionListener(this::jbGuardarActionPerformed);
 
         jbEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
@@ -89,6 +120,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
 
         jbActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         jbActualizar.setText("Actualizar");
+        jbActualizar.setPreferredSize(new java.awt.Dimension(85, 23));
         jbActualizar.addActionListener(this::jbActualizarActionPerformed);
 
         jbAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/alta.png"))); // NOI18N
@@ -105,6 +137,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
 
         jbListar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/listar.png"))); // NOI18N
         jbListar.setText("Listar");
+        jbListar.setPreferredSize(new java.awt.Dimension(93, 23));
         jbListar.addActionListener(this::jbListarActionPerformed);
 
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
@@ -133,67 +166,72 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
+        jtAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtAlumnosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtAlumnos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                    .addComponent(jbListar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(83, 83, 83))
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbListar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfID)
-                                        .addComponent(tfDNI)
-                                        .addComponent(tfApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(tfEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)))
-                .addGap(10, 10, 10))
+                        .addComponent(jLabel1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tfFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(tfID)
+                                    .addComponent(tfDNI)
+                                    .addComponent(tfApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,41 +251,33 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(tfFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(tfEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbGuardar)
-                            .addComponent(jbBuscar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbEliminar)
-                            .addComponent(jbActualizar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbListar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbAlta))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbNuevo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbBaja)))
-                .addContainerGap())
+                    .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jbListar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(15, 15, 15)
+                            .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jbAlta, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                                .addComponent(jbNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(15, 15, 15)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jbBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfEstadoActionPerformed
-
     private void jbAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAltaActionPerformed
+        
         String idAlumno = tfID.getText().trim();
 
         if (idAlumno.isEmpty()) {
@@ -268,6 +298,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                 if (resultado) {
                     JOptionPane.showMessageDialog(this, "El alta se realizó correctamente."
                     );
+                    cargarTablaAlumnos();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo realizar el alta."
                     );
@@ -281,15 +312,13 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbAltaActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        tfApellido.setText("");
-        tfID.setText("");
-        tfDNI.setText("");
-        tfNombre.setText("");
-        tfFechaN.setText("");
-        tfEstado.setText("");
+       
+        limpiarFormulario();
     }//GEN-LAST:event_jbNuevoActionPerformed
 
+    
     private void jbBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBajaActionPerformed
+        
         String idAlumno = tfID.getText().trim();
 
         if (idAlumno.isEmpty()) {
@@ -310,6 +339,7 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
                 if (resultado) {
                     JOptionPane.showMessageDialog(this, "La baja se realizó correctamente."
                     );
+                    cargarTablaAlumnos();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo realizar la baja."
                     );
@@ -323,134 +353,198 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBajaActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        if (tfID.getText().trim().isEmpty() || tfNombre.getText().trim().isEmpty() || tfApellido.getText().trim().isEmpty() || tfDNI.getText().trim().isEmpty() || tfFechaN.getText().trim().isEmpty() || tfEstado.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
-        }else {
-            String nombre = tfNombre.getText();
-            String apellido = tfApellido.getText();
-            
+        
+        if (tfNombre.getText().trim().isEmpty()
+                || tfApellido.getText().trim().isEmpty()
+                || tfDNI.getText().trim().isEmpty()
+                || tfFechaN.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            String nombre = tfNombre.getText().trim();
+            String apellido = tfApellido.getText().trim();
             String dni = tfDNI.getText().trim();
-            
-            LocalDate fechaN = LocalDate.parse(tfFechaN.getText());
-            String textoEstado = tfEstado.getText().trim();
-            boolean estado = Boolean.parseBoolean(textoEstado);
-            Alumno a = new Alumno(dni, nombre,apellido, fechaN, estado);
-            
+            LocalDate fechaN = LocalDate.parse(tfFechaN.getText().trim());
+
+            Alumno a = new Alumno(dni, nombre, apellido, fechaN, true);
+
             if (alumnoData.guardarAlumno(a)) {
                 JOptionPane.showMessageDialog(this, "Alumno guardado correctamente.");
+                cargarTablaAlumnos();
+                limpiarFormulario();
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo guardar el alumno.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+        } catch (java.time.format.DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha debe tener el formato AAAA-MM-DD.",
+                    "Fecha inválida", JOptionPane.WARNING_MESSAGE);
         }
+        
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        
         String idAlumno = tfID.getText().trim();
 
         if (idAlumno.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el ID del alumno.");
             return;
         }
+
         try {
-            
-            int id = Integer.parseInt(tfID.getText());
-            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el alumno?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
-           
+            int id = Integer.parseInt(idAlumno);
+
+            int respuesta = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Seguro que quieres eliminar el alumno?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+            );
+
             if (respuesta == JOptionPane.YES_OPTION) {
-                
                 boolean resultado = alumnoData.borrarAlumno(id);
 
                 if (resultado) {
-                    JOptionPane.showMessageDialog(this, "Se ha eliminado el alumno correctamente."
-                    );
+                    JOptionPane.showMessageDialog(this,
+                            "Se ha eliminado el alumno correctamente.");
+                    limpiarFormulario();
+                    cargarTablaAlumnos();
                 } else {
-                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el alumno."
-                    );
+                    JOptionPane.showMessageDialog(this,
+                            "No se pudo eliminar el alumno. Puede tener cursadas asociadas.");
                 }
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero."
-            );
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser un número entero.");
         }
+        
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+    
+        String idIngresado = JOptionPane.showInputDialog(
+                this, "Ingrese el ID del alumno: ");
+
+        if (idIngresado == null) {
+            return;
+        }
+
+        idIngresado = idIngresado.trim();
+
+        // Validar que no esté vacío.
+        if (idIngresado.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe ingresar un ID.");
+            return;
+        }
+
         try {
-            String idIngresado = tfID.getText().trim();
+            int idAlumno = Integer.parseInt(idIngresado);
 
-            if (idIngresado.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe completar el campo ID.");
-            } else {
+            Alumno a = alumnoData.buscarAlumno(idAlumno);
 
-                int idAlumno = Integer.parseInt(idIngresado);
-                Alumno a = alumnoData.buscarAlumno((idAlumno));
-                
-                if (a == null) {
-                    JOptionPane.showMessageDialog(this, "Alumno no encontrado");
-                } else {
-                    int id = a.getIdAlumno();
-                    String dni = a.getDni();
-                    String nombre = a.getNombre();
-                    String apellido = a.getApellido();
-                    LocalDate fechaN = a.getFecNac();
-                    boolean estado = a.isEstado();
-
-                    tfID.setText(String.valueOf(id));
-                    tfDNI.setText(String.valueOf(dni));
-                    tfNombre.setText(nombre);
-                    tfApellido.setText(apellido);
-                    tfFechaN.setText(fechaN.toString());
-                    tfEstado.setText(String.valueOf(estado));
-                }
+            if (a == null) {
+                JOptionPane.showMessageDialog(this,
+                        "No se encontró un alumno con ese ID.");
+                return;
             }
 
+            // Volcar los datos del alumno en el formulario.
+            tfID.setText(String.valueOf(a.getIdAlumno()));
+            tfDNI.setText(a.getDni());
+            tfNombre.setText(a.getNombre());
+            tfApellido.setText(a.getApellido());
+            tfFechaN.setText(a.getFecNac().toString());
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser un número entero.");
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
-        if (tfID.getText().trim().isEmpty() || tfNombre.getText().trim().isEmpty() || tfApellido.getText().trim().isEmpty() || tfDNI.getText().trim().isEmpty() || tfFechaN.getText().trim().isEmpty() || tfEstado.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
-        } else {
-            
-            int id = Integer.parseInt(tfID.getText());
-            String dni = tfDNI.getText().trim();
-            String nombre = tfNombre.getText();
-            String apellido = tfApellido.getText();
-            LocalDate fechaN = LocalDate.parse(tfFechaN.getText());
-            boolean estado = Boolean.parseBoolean(tfEstado.getText());
-            Alumno a = new Alumno(dni, nombre,apellido, fechaN, estado);
-            
-            
-            if (alumnoData.actualizarAlumno(a)) {
-                JOptionPane.showMessageDialog(this, "Se ha actualizado la materia correctamente.");
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo actualizar la materia.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+       
+        if (tfID.getText().trim().isEmpty()
+                || tfNombre.getText().trim().isEmpty()
+                || tfApellido.getText().trim().isEmpty()
+                || tfDNI.getText().trim().isEmpty()
+                || tfFechaN.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+
+        try {
+            int id = Integer.parseInt(tfID.getText().trim());
+            String dni = tfDNI.getText().trim();
+            String nombre = tfNombre.getText().trim();
+            String apellido = tfApellido.getText().trim();
+            LocalDate fechaN = LocalDate.parse(tfFechaN.getText().trim());
+
+            Alumno a = new Alumno(id, dni, nombre, apellido, fechaN);
+
+            if (alumnoData.actualizarAlumno(a)) {
+                JOptionPane.showMessageDialog(this,
+                        "El alumno se actualizó correctamente.");
+                cargarTablaAlumnos();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo actualizar el alumno.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser un número entero.");
+        } catch (java.time.format.DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha debe tener el formato AAAA-MM-DD.",
+                    "Fecha inválida", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jbActualizarActionPerformed
 
     private void jbListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarActionPerformed
-        ArrayList<Alumno> lista = alumnoData.listarAlumnos();
-        DefaultTableModel modelo = (DefaultTableModel) jtAlumnos.getModel();
-        modelo.setRowCount(0);
-               
-        for (Alumno a : lista) {
-            modelo.addRow(new Object[]{
-                a.getIdAlumno(),
-                a.getDni(),
-                a.getNombre(),
-                a.getApellido(),
-                a.getFecNac(),
-                a.isEstado()
-            });
-            
-        }
-        JOptionPane.showMessageDialog(this, "Se listaron " + lista.size() + " alumnos.");
+   
+        cargarTablaAlumnos();
+
+        int cantidad = jtAlumnos.getRowCount();
+        JOptionPane.showMessageDialog(this,
+                "Se listaron " + cantidad + " alumnos.");
+        
     }//GEN-LAST:event_jbListarActionPerformed
+
+    private void jtAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAlumnosMouseClicked
+   
+        int fila = jtAlumnos.getSelectedRow();
+
+        if (fila == -1) {
+            return;
+        }
+
+        Object id = jtAlumnos.getValueAt(fila, 0);
+        Object dni = jtAlumnos.getValueAt(fila, 1);
+        Object nombre = jtAlumnos.getValueAt(fila, 2);
+        Object apellido = jtAlumnos.getValueAt(fila, 3);
+        Object fechaN = jtAlumnos.getValueAt(fila, 4);
+
+        tfID.setText(id != null ? id.toString() : "");
+        tfDNI.setText(dni != null ? dni.toString() : "");
+        tfNombre.setText(nombre != null ? nombre.toString() : "");
+        tfApellido.setText(apellido != null ? apellido.toString() : "");
+        tfFechaN.setText(fechaN != null ? fechaN.toString() : "");
+     
+    }//GEN-LAST:event_jtAlumnosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -461,8 +555,8 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbAlta;
     private javax.swing.JButton jbBaja;
@@ -474,7 +568,6 @@ public class VistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtAlumnos;
     private javax.swing.JTextField tfApellido;
     private javax.swing.JTextField tfDNI;
-    private javax.swing.JTextField tfEstado;
     private javax.swing.JTextField tfFechaN;
     private javax.swing.JTextField tfID;
     private javax.swing.JTextField tfNombre;

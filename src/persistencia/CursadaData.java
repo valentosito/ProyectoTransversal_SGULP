@@ -178,6 +178,33 @@ public class CursadaData {
             System.out.println("Error al actualizar cursada: " + e.getMessage());
         }
     }
+    
+    
+    // Método que actualiza únicamente el porcentaje de asistencia de una cursada.
+    public void actualizarPorcentajeAsistencia(int idCursada, int porcentaje) {
+
+        String sql = "UPDATE cursada SET asistencia = ? WHERE idCursada = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, porcentaje);
+            ps.setInt(2, idCursada);
+
+            int filas = ps.executeUpdate();
+            ps.close();
+
+            if (filas == 0) {
+                System.out.println("No se encontró la cursada.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el porcentaje de asistencia: "
+                    + e.getMessage());
+        }
+    }
+
+    
 
     // buscar la cursada por id. (aca el objeto llama al id ) 
     public Cursada buscarCursada(int idCursada) {
@@ -237,6 +264,37 @@ public class CursadaData {
         return null;
     }
 
+    
+    // Método que busca una cursada por alumno, materia, año y cuatrimestre para recuperar los datos en el botón de Desinscribir.
+    public Cursada buscarCursada(int idAlumno, int idMateria,
+            int anio, int cuatrimestre) {
+
+        String sql = "SELECT idCursada FROM cursada "
+                + "WHERE idAlumno = ? AND idMateria = ? "
+                + "AND anio = ? AND cuatrimestre = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, idAlumno);
+            ps.setInt(2, idMateria);
+            ps.setInt(3, anio);
+            ps.setInt(4, cuatrimestre);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return buscarCursada(rs.getInt("idCursada"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar cursada: " + e.getMessage());
+        }
+
+        return null;
+    }
+    
+    
     // hacer el listado de las cursadas 
     public ArrayList<Cursada> listarCursadas() {
 
@@ -393,4 +451,46 @@ public class CursadaData {
 
         return lista;
     }
+    
+    
+    // Método que devuelve las cursadas de una materia que coincidan con los criterios: materia, año y cuatrimestre.
+    // Determinar vigencia.
+    public ArrayList<Cursada> listarCursadasPorMateriaYPeriodo(
+            
+            int idMateria, int anio, int cuatrimestre) {
+
+        ArrayList<Cursada> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM cursada "
+                + "WHERE idMateria = ? AND anio = ? "
+                + "AND cuatrimestre = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, idMateria);
+            ps.setInt(2, anio);
+            ps.setInt(3, cuatrimestre);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Cursada cursada = buscarCursada(
+                            rs.getInt("idCursada")
+                    );
+
+                    if (cursada != null) {
+                        lista.add(cursada);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(
+                    "No se pudieron listar las cursadas: " + e.getMessage()
+            );
+        }
+
+        return lista;
+    }
+
 }

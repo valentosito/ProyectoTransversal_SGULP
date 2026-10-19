@@ -8,8 +8,7 @@ public class Cursada {
     private int idCursada;
     private int anio;
     private int cuatrimestre;
-    private int condicion;
-    //private double notaFinal;
+    private int condicion; // 1 regular, 2 libre, 3 promocional
     private Double notaFinal;
     private boolean recursante;
     private int porcAsistencia;
@@ -139,8 +138,9 @@ public class Cursada {
         return (presentes * 100) / listaDeAsistencias.size();
 
     }
+    
+    
     // actualizamos el porcentaje de asistencia 
-
     public void actualizarPorcentajeDeAsistencia() {
         this.porcAsistencia = calcularPorcentajeAsistencia();
     }

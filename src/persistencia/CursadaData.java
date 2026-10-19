@@ -237,6 +237,37 @@ public class CursadaData {
         return null;
     }
 
+    
+    // Método qeu busca una cursada por alumno, materia, año y cuatrimestre para recuperar los datos en el botón de Desinscribir.
+    public Cursada buscarCursada(int idAlumno, int idMateria,
+            int anio, int cuatrimestre) {
+
+        String sql = "SELECT idCursada FROM cursada "
+                + "WHERE idAlumno = ? AND idMateria = ? "
+                + "AND anio = ? AND cuatrimestre = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, idAlumno);
+            ps.setInt(2, idMateria);
+            ps.setInt(3, anio);
+            ps.setInt(4, cuatrimestre);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return buscarCursada(rs.getInt("idCursada"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar cursada: " + e.getMessage());
+        }
+
+        return null;
+    }
+    
+    
     // hacer el listado de las cursadas 
     public ArrayList<Cursada> listarCursadas() {
 

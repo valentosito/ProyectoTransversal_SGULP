@@ -96,23 +96,19 @@ public class AlumnoData {
     
       
     // Modificación de Alumno. (UPDATE)
-    public boolean actualizarAlumno(Alumno alumno) {
-        
-        String sql = "UPDATE alumno SET dni = ?, nombre = ?, apellido = ?, fecNac = ?, estado = ? WHERE idAlumno = ?";
+   public boolean actualizarAlumno(Alumno alumno) {
 
-        try {
+        String sql = "UPDATE alumno SET dni = ?, nombre = ?, apellido = ?, fecNac = ? WHERE idAlumno = ?";
 
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, alumno.getDni());
             ps.setString(2, alumno.getNombre());
             ps.setString(3, alumno.getApellido());
             ps.setDate(4, Date.valueOf(alumno.getFecNac()));
-            ps.setBoolean(5, alumno.isEstado());
-            ps.setInt(6, alumno.getIdAlumno());
+            ps.setInt(5, alumno.getIdAlumno());
 
             int filasModificadas = ps.executeUpdate();
-            ps.close();
 
             if (filasModificadas > 0) {
                 System.out.println("Alumno actualizado correctamente.");
@@ -181,8 +177,7 @@ public class AlumnoData {
         } catch (SQLException e) {
             System.out.println("Error al dar de baja al alumno: " + e.getMessage());
             return false;
-        }
-        
+        }   
     }
     
         

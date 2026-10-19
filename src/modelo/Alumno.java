@@ -31,6 +31,17 @@ public class Alumno {
     }
     
     
+    // El objeto Alumno que le paso a actualizarAlumno() y otros métodos necesita contener el ID.
+    public Alumno(int idAlumno, String dni, String nombre,
+            String apellido, LocalDate fecNac) {
+        this.idAlumno = idAlumno;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fecNac = fecNac;
+        this.listaDeCursadas = new ArrayList<>();
+    }
+    
     // Constructor vacío para uso de SELECT también.
       public Alumno() {
           

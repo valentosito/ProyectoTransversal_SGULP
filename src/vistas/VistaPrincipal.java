@@ -18,10 +18,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         Alumnos estaba minimizada
         Se restaura y se intenta seleccionarla.
     
-    */
-  
-    
-    
+     */
     private <T extends javax.swing.JInternalFrame> void abrirVentana(Class<T> tipoVentana, java.util.function.Supplier<T> creador) {
 
         // Buscar si ya existe una ventana de este tipo.
@@ -63,10 +60,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
     }
 
-    
     public VistaPrincipal() {
         initComponents();
-        
+
         setIconImage(new javax.swing.ImageIcon(
                 getClass().getResource("/imagenes/logoULP.png")
         ).getImage());
@@ -125,6 +121,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         mnuConsultas.add(mniMateriasAlumno);
 
         mnuAlumnosMateria.setText("Alumnos de una materia");
+        mnuAlumnosMateria.addActionListener(this::mnuAlumnosMateriaActionPerformed);
         mnuConsultas.add(mnuAlumnosMateria);
 
         mnuAdministracion.add(mnuConsultas);
@@ -172,7 +169,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniMateriasActionPerformed
 
     private void mniAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAsistenciaActionPerformed
-       abrirVentana(VistaAsistencia.class, VistaAsistencia::new);
+        abrirVentana(VistaAsistencia.class, VistaAsistencia::new);
     }//GEN-LAST:event_mniAsistenciaActionPerformed
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
@@ -186,20 +183,23 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniAlumnosActionPerformed
 
     private void mniInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniInscripcionActionPerformed
-        
-         abrirVentana(VistaInscripcion.class, VistaInscripcion::new);
+
+        abrirVentana(VistaInscripcion.class, VistaInscripcion::new);
     }//GEN-LAST:event_mniInscripcionActionPerformed
 
     private void mniMateriasAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniMateriasAlumnoActionPerformed
         abrirVentana(VistaMateriasDeAlumno.class, VistaMateriasDeAlumno::new);
     }//GEN-LAST:event_mniMateriasAlumnoActionPerformed
 
+    private void mnuAlumnosMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAlumnosMateriaActionPerformed
+        abrirVentana(VistaAlumnosDeMateria.class, VistaAlumnosDeMateria::new);
+    }//GEN-LAST:event_mnuAlumnosMateriaActionPerformed
+
     public static void main(String args[]) {
 
         // Esta línea no comprueba si la conexión con MariaDB se estableció correctamente o no,  
         // por lo que la ventana principal se puede abrir aunque la base de datos esté apagada.
         // java.awt.EventQueue.invokeLater(() -> new VistaPrincipal().setVisible(true));
-        
         java.awt.EventQueue.invokeLater(() -> {
 
             persistencia.Conexion conexion = persistencia.Conexion.getInstancia();
@@ -218,9 +218,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
             new VistaPrincipal().setVisible(true);
         });
-        
+
     }
-        
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

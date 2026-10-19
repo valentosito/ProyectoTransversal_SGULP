@@ -65,15 +65,15 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] `VistaMaterias`
 - [x] `VistaInscripcion`
 - [x] `VistaAsistencia`
-- [ ] `VistaConsultas`
+- [x] `VistaConsultas`
 - [ ] `VistaCalificacion`
 
 ### Funcionalidades
 
 - [x] ABMC de alumnos
 - [x] ABMC de materias
-- [ ] Consulta de materias de un alumno
-- [ ] Consulta de alumnos de una materia
+- [x] Consulta de materias de un alumno
+- [x] Consulta de alumnos de una materia
 - [ ] Inscripción a materias
 - [ ] Desinscripción de materias
 - [ ] Registro de asistencia

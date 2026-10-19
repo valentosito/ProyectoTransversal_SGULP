@@ -51,6 +51,9 @@ public class Conexion {
     
     }
     
+    
+    //comentario
+    
     // La propia clase es la que controle el único new Conexion()                                              (SINGLETON)
     // El objeto se puede obtener/crear desde afuera, pero su construcción está controlada por la propia clase. 
     public static Conexion getInstancia() {

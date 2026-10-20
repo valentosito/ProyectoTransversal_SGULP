@@ -52,7 +52,11 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
         tblAlumnos = new javax.swing.JTable();
         btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnEnter = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("SECCIÓN DOCENTES");
 
@@ -61,9 +65,9 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Gestión de calificaciones");
 
-        jLabel3.setText("Seleccionar cursada");
+        jLabel3.setText("Seleccionar materia");
 
-        cmbMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar materia" }));
+        cmbMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
         cmbMaterias.setToolTipText("");
 
         jLabel4.setText("Cuatrimestre");
@@ -76,13 +80,13 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
 
         tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Alumno", "Nota Final"
+                "Alumno", "Nota Final", "Condición"
             }
         ));
         jScrollPane1.setViewportView(tblAlumnos);
@@ -91,31 +95,40 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
 
         btnGuardar.setText("Guardar notas");
 
+        btnEnter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/enter_1.png"))); // NOI18N
+        btnEnter.addActionListener(this::btnEnterActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbMaterias, javax.swing.GroupLayout.Alignment.LEADING, 0, 153, Short.MAX_VALUE))
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1)))
-                .addContainerGap(51, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cmbMaterias, javax.swing.GroupLayout.Alignment.LEADING, 0, 153, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(43, 43, 43)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel5)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(61, 61, 61)
+                                    .addComponent(btnEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLimpiar)
@@ -126,13 +139,13 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5))
@@ -142,13 +155,18 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
                     .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(btnEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(44, 44, 44)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -160,28 +178,66 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
 
     private void txtAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnioActionPerformed
 
-        cargarSiCorresponde();
+       
     }//GEN-LAST:event_txtAnioActionPerformed
+
+    private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
+
+        if (cmbMaterias.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná una materia.");
+            return;
+        }
+
+        if (txtAnio.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Ingresá el año.");
+            txtAnio.requestFocus();
+            return;
+        }
+
+        try {
+            int anio = Integer.parseInt(txtAnio.getText().trim());
+
+            if (anio <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Ingresá un año válido.");
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El año debe ser un número entero.");
+            txtAnio.requestFocus();
+            return;
+        }
+
+        if (cmbCuatrimestre.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un cuatrimestre.");
+            return;
+        }
+
+        cargarAlumnos();
+
+    }//GEN-LAST:event_btnEnterActionPerformed
 
     private void configurarTabla() {
 
-        modeloTabla = new DefaultTableModel(
-                new Object[]{"ID Alumno", "Alumno", "Nota final"}, 0) {
+        modeloTabla = new DefaultTableModel(new Object[]{"ID Alumno", "Alumno", "Nota final", "Condición"}, 0) {
 
             @Override
             public boolean isCellEditable(int fila, int columna) {
-
                 return columna == 2;
             }
         };
 
-        tblAlumnos.setModel(modeloTabla);
+    tblAlumnos.setModel(modeloTabla);
     }
 
     private void cargarMaterias() {
 
         cmbMaterias.removeAllItems();
-        cmbMaterias.addItem("Seleccionar materia");
 
         materiasCargadas = materiaData.listarMaterias();
 
@@ -194,34 +250,18 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
     private void configurarCuatrimestres() {
 
         cmbCuatrimestre.removeAllItems();
-        cmbCuatrimestre.addItem("Seleccionar cuatrimestre");
         cmbCuatrimestre.addItem("1");
         cmbCuatrimestre.addItem("2");
     }
 
-    // Conectar eventos:
+    // Conexión de eventos:
     private void configurarEventos() {
-
-        cmbMaterias.addActionListener(e -> cargarSiCorresponde());
-
-        cmbCuatrimestre.addActionListener(e -> cargarSiCorresponde());
 
         btnGuardar.addActionListener(e -> guardarNotas());
 
         btnLimpiar.addActionListener(e -> limpiarFormulario());
-    }
-
-    // Validación:
-    private void cargarSiCorresponde() {
-
-        if (cmbMaterias.getSelectedIndex() > 0 && cmbCuatrimestre.getSelectedIndex() > 0 && !txtAnio.getText().trim().isEmpty()) {
-
-            cargarAlumnos();
-
-        } else {
-            modeloTabla.setRowCount(0);
-            cursadasTabla.clear();
-        }
+        
+        btnEnter.addActionListener(e -> btnEnterActionPerformed(e));
     }
 
     private void cargarAlumnos() {
@@ -233,37 +273,55 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
                 return;
             }
 
-            int indiceMateria = cmbMaterias.getSelectedIndex() - 1;
+            int indiceMateria = cmbMaterias.getSelectedIndex();
 
             if (indiceMateria < 0 || indiceMateria >= materiasCargadas.size()) {
                 return;
             }
 
             Materia materia = materiasCargadas.get(indiceMateria);
-            int cuatrimestre = cmbCuatrimestre.getSelectedIndex();
+            int cuatrimestre = cmbCuatrimestre.getSelectedIndex() + 1;
 
             modeloTabla.setRowCount(0);
             cursadasTabla.clear();
 
-            cursadasTabla = cursadaData.listarCursadasPorMateriaYPeriodo(
-                    materia.getIdMateria(), anio, cuatrimestre);
+            cursadasTabla = cursadaData.listarCursadasPorMateriaYPeriodo(materia.getIdMateria(), anio, cuatrimestre);
 
             for (Cursada cursada : cursadasTabla) {
 
                 String nombreCompleto = cursada.getAlumno().getApellido() + ", " + cursada.getAlumno().getNombre();
 
                 Object nota = cursada.getNotaFinal();
-
+                
+                String condicion;
+    
+                switch (cursada.getCondicion()) {
+                    case 1:
+                        condicion = "Regular";
+                        break;
+                    case 2:
+                        condicion = "Libre";
+                        break;
+                    case 3:
+                        condicion = "Promocional";
+                        break;
+                    default:
+                        condicion = "Sin determinar";
+                        break;
+                }
+                
                 modeloTabla.addRow(new Object[]{
                     cursada.getAlumno().getIdAlumno(),
                     nombreCompleto,
-                    nota
+                    nota,
+                    condicion
                 });
             }
 
         } catch (NumberFormatException e) {
             // El año todavía puede estar incompleto mientras se escribe.
         }
+        
     }
 
     private void guardarNotas() {
@@ -369,6 +427,7 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEnter;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cmbCuatrimestre;

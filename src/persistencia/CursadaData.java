@@ -493,31 +493,45 @@ public class CursadaData {
         return lista;
     }
     
-    
-    public boolean actualizarNotaFinal(int idCursada, Double notaFinal) {
+       public boolean actualizarNotaFinal(int idCursada, Double notaFinal) {
 
-        String sql = "UPDATE cursada SET notaFinal = ? "
+        if (notaFinal == null) {
+            String sql = "UPDATE cursada SET notaFinal = NULL "
+                    + "WHERE idCursada = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, idCursada);
+                return ps.executeUpdate() > 0;
+
+            } catch (SQLException e) {
+                System.out.println("Error al actualizar la nota final: "
+                        + e.getMessage());
+                return false;
+            }
+        }
+
+        String sql = "UPDATE cursada SET notaFinal = ?, "
+                + "condicion = CASE "
+                + "WHEN ? < 4 OR asistencia < 75 THEN 2 "
+                + "WHEN ? >= 7 AND asistencia >= 80 THEN 3 "
+                + "ELSE 1 "
+                + "END "
                 + "WHERE idCursada = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            if (notaFinal != null) {
-                ps.setDouble(1, notaFinal);
-            } else {
-                ps.setNull(1, java.sql.Types.DECIMAL);
-            }
-
-            ps.setInt(2, idCursada);
+            ps.setDouble(1, notaFinal);
+            ps.setDouble(2, notaFinal);
+            ps.setDouble(3, notaFinal);
+            ps.setInt(4, idCursada);
 
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println(
-                    "Error al actualizar la nota final: " + e.getMessage()
-            );
+            System.out.println("Error al actualizar la nota final: "
+                    + e.getMessage());
             return false;
         }
     }
-
 
 }

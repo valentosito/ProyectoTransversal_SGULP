@@ -174,6 +174,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void mniRegistrarCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRegistrarCalificacionActionPerformed
 
+        abrirVentana(VistaCalificaciones.class, VistaCalificaciones::new
+        );
     }//GEN-LAST:event_mniRegistrarCalificacionActionPerformed
 
     private void mniAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAlumnosActionPerformed

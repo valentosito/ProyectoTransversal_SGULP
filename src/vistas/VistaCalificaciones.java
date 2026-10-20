@@ -1,15 +1,39 @@
-
 package vistas;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Cursada;
+import modelo.Materia;
+import persistencia.CursadaData;
+import persistencia.MateriaData;
 
 public class VistaCalificaciones extends javax.swing.JInternalFrame {
 
-   
+    private MateriaData materiaData = new MateriaData();
+    private CursadaData cursadaData = new CursadaData();
+
+    private ArrayList<Materia> materiasCargadas = new ArrayList<>();
+
+    // Lista que conserva la correspondencia entre cada fila y su cursada, para guardar la nota en el registro correspondiente.
+    private ArrayList<Cursada> cursadasTabla = new ArrayList<>();
+
+    private DefaultTableModel modeloTabla;
+
     public VistaCalificaciones() {
         initComponents();
+
+        setFrameIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/imagenes/logoULP.png")
+        ));
+
+        configurarTabla();
+        cargarMaterias();
+        configurarCuatrimestres();
+        configurarEventos();
+
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -18,8 +42,8 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbCuatrimestre = new javax.swing.JComboBox<>();
+        cmbMaterias = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtAnio = new javax.swing.JTextField();
@@ -39,8 +63,8 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Seleccionar cursada");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar materia" }));
-        jComboBox2.setToolTipText("");
+        cmbMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar materia" }));
+        cmbMaterias.setToolTipText("");
 
         jLabel4.setText("Cuatrimestre");
 
@@ -79,9 +103,9 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 153, Short.MAX_VALUE))
+                            .addComponent(cmbMaterias, javax.swing.GroupLayout.Alignment.LEADING, 0, 153, Short.MAX_VALUE))
                         .addGap(43, 43, 43)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,12 +138,12 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
@@ -135,15 +159,220 @@ public class VistaCalificaciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnioActionPerformed
-      
+
+        cargarSiCorresponde();
     }//GEN-LAST:event_txtAnioActionPerformed
 
+    private void configurarTabla() {
+
+        modeloTabla = new DefaultTableModel(
+                new Object[]{"ID Alumno", "Alumno", "Nota final"}, 0) {
+
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+
+                return columna == 2;
+            }
+        };
+
+        tblAlumnos.setModel(modeloTabla);
+    }
+
+    private void cargarMaterias() {
+
+        cmbMaterias.removeAllItems();
+        cmbMaterias.addItem("Seleccionar materia");
+
+        materiasCargadas = materiaData.listarMaterias();
+
+        for (Materia materia : materiasCargadas) {
+
+            cmbMaterias.addItem(materia.getNombre());
+        }
+    }
+
+    private void configurarCuatrimestres() {
+
+        cmbCuatrimestre.removeAllItems();
+        cmbCuatrimestre.addItem("Seleccionar cuatrimestre");
+        cmbCuatrimestre.addItem("1");
+        cmbCuatrimestre.addItem("2");
+    }
+
+    // Conectar eventos:
+    private void configurarEventos() {
+
+        cmbMaterias.addActionListener(e -> cargarSiCorresponde());
+
+        cmbCuatrimestre.addActionListener(e -> cargarSiCorresponde());
+
+        btnGuardar.addActionListener(e -> guardarNotas());
+
+        btnLimpiar.addActionListener(e -> limpiarFormulario());
+    }
+
+    // Validación:
+    private void cargarSiCorresponde() {
+
+        if (cmbMaterias.getSelectedIndex() > 0 && cmbCuatrimestre.getSelectedIndex() > 0 && !txtAnio.getText().trim().isEmpty()) {
+
+            cargarAlumnos();
+
+        } else {
+            modeloTabla.setRowCount(0);
+            cursadasTabla.clear();
+        }
+    }
+
+    private void cargarAlumnos() {
+
+        try {
+            int anio = Integer.parseInt(txtAnio.getText().trim());
+
+            if (anio <= 0) {
+                return;
+            }
+
+            int indiceMateria = cmbMaterias.getSelectedIndex() - 1;
+
+            if (indiceMateria < 0 || indiceMateria >= materiasCargadas.size()) {
+                return;
+            }
+
+            Materia materia = materiasCargadas.get(indiceMateria);
+            int cuatrimestre = cmbCuatrimestre.getSelectedIndex();
+
+            modeloTabla.setRowCount(0);
+            cursadasTabla.clear();
+
+            cursadasTabla = cursadaData.listarCursadasPorMateriaYPeriodo(
+                    materia.getIdMateria(), anio, cuatrimestre);
+
+            for (Cursada cursada : cursadasTabla) {
+
+                String nombreCompleto = cursada.getAlumno().getApellido() + ", " + cursada.getAlumno().getNombre();
+
+                Object nota = cursada.getNotaFinal();
+
+                modeloTabla.addRow(new Object[]{
+                    cursada.getAlumno().getIdAlumno(),
+                    nombreCompleto,
+                    nota
+                });
+            }
+
+        } catch (NumberFormatException e) {
+            // El año todavía puede estar incompleto mientras se escribe.
+        }
+    }
+
+    private void guardarNotas() {
+
+        if (tblAlumnos.isEditing() && !tblAlumnos.getCellEditor().stopCellEditing()) {
+            return;
+        }
+
+        if (cursadasTabla.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No hay alumnos cargados para guardar.");
+            return;
+        }
+
+        ArrayList<Double> notas = new ArrayList<>();
+
+        // Primero, validar las notas:
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+
+            Object valor = modeloTabla.getValueAt(i, 2);
+
+            if (valor == null || valor.toString().trim().isEmpty()) {
+                notas.add(null);
+                continue;
+            }
+
+            try {
+                double nota = Double.parseDouble(valor.toString().trim().replace(',', '.'));
+
+                if (!Double.isFinite(nota) || nota < 0 || nota > 10) {
+                    throw new NumberFormatException();
+                }
+
+                notas.add(nota);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "La nota de la fila " + (i + 1)
+                        + " debe ser un número entre 0 y 10.",
+                        "Nota inválida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+
+        // Segundo, guardar solo las notas nuevas o modificadas:
+        int guardadas = 0;
+
+        for (int i = 0; i < notas.size(); i++) {
+
+            Double nuevaNota = notas.get(i);
+
+            // Una celda vacía no modifica la nota existente.
+            if (nuevaNota == null) {
+
+                continue;
+            }
+
+            Cursada cursada = cursadasTabla.get(i);
+            Double notaAnterior = cursada.getNotaFinal();
+
+            if (notaAnterior != null && Double.compare(notaAnterior, nuevaNota) == 0) {
+                continue;
+            }
+
+            if (!cursadaData.actualizarNotaFinal(cursada.getIdCursada(), nuevaNota)) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se pudo guardar la nota del alumno "
+                        + cursada.getAlumno().getApellido() + ", "
+                        + cursada.getAlumno().getNombre()
+                        + ". Revisá la consola para ver el error.",
+                        "Error al guardar",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            cursada.setNotaFinal(nuevaNota);
+            guardadas++;
+        }
+
+        JOptionPane.showMessageDialog(
+                this,
+                guardadas == 0
+                        ? "No hay notas nuevas o modificadas para guardar."
+                        : "Se guardaron correctamente "
+                        + guardadas + " calificación(es).");
+
+        cargarAlumnos();
+    }
+
+    private void limpiarFormulario() {
+
+        cmbMaterias.setSelectedIndex(0);
+        cmbCuatrimestre.setSelectedIndex(0);
+        txtAnio.setText("");
+
+        modeloTabla.setRowCount(0);
+        cursadasTabla.clear();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cmbCuatrimestre;
+    private javax.swing.JComboBox<String> cmbMaterias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -66,7 +66,7 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] `VistaInscripcion`
 - [x] `VistaAsistencia`
 - [x] `VistaConsultas`
-- [ ] `VistaCalificacion`
+- [x] `VistaCalificacion`
 
 ### Funcionalidades
 
@@ -77,4 +77,4 @@ El repositorio incluye los siguientes archivos de documentación:
 - [x] Inscripción a materias
 - [x] Desinscripción de materias
 - [x] Registro de asistencia
-- [ ] Registro de calificaciones
+- [x] Registro de calificaciones

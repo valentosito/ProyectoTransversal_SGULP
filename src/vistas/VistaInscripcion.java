@@ -42,7 +42,6 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
     private void configurarFormulario() {
 
-        setTitle("Inscripción");  
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -192,7 +191,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(78, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

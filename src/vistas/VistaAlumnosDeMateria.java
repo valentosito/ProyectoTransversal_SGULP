@@ -57,6 +57,7 @@ public class VistaAlumnosDeMateria extends javax.swing.JInternalFrame {
         jTablaAlumnos = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setTitle("GESTIÓN DE CONSULTAS");
         setMaximumSize(new java.awt.Dimension(2147483647, 80));
         setPreferredSize(new java.awt.Dimension(536, 573));
 

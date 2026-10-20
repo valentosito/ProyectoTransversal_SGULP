@@ -54,6 +54,8 @@ public class VistaMateriasDeAlumno extends javax.swing.JInternalFrame {
         jTablaMaterias = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
 
+        setTitle("GESTIÓN DE CONSULTAS");
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Consultar materias por alumno/a");
 

@@ -492,5 +492,32 @@ public class CursadaData {
 
         return lista;
     }
+    
+    
+    public boolean actualizarNotaFinal(int idCursada, Double notaFinal) {
+
+        String sql = "UPDATE cursada SET notaFinal = ? "
+                + "WHERE idCursada = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            if (notaFinal != null) {
+                ps.setDouble(1, notaFinal);
+            } else {
+                ps.setNull(1, java.sql.Types.DECIMAL);
+            }
+
+            ps.setInt(2, idCursada);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println(
+                    "Error al actualizar la nota final: " + e.getMessage()
+            );
+            return false;
+        }
+    }
+
 
 }
